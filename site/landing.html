@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Whitechain x402 Facilitator | x402 payments on Whitechain</title>
+  <meta name="description" content="Public x402 facilitator endpoint for Whitechain (eip155:1874). Verifies and settles EIP-3009 pay-per-request payments for AI agents and APIs. Free on testnet.">
+  <link rel="canonical" href="https://whitechain-x402-facilitator.vercel.app/">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#0d1013">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Whitechain x402 Facilitator">
+  <meta property="og:title" content="Whitechain x402 Facilitator">
+  <meta property="og:description" content="The first public x402 facilitator for Whitechain. HTTP 402 pay-per-request payments for AI agents and APIs on WhiteBIT's L2.">
+  <meta property="og:url" content="https://whitechain-x402-facilitator.vercel.app/">
+  <meta property="og:image" content="https://whitechain-x402-facilitator.vercel.app/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Whitechain x402 Facilitator">
+  <meta name="twitter:description" content="Public x402 facilitator endpoint for Whitechain (eip155:1874): verifies and settles EIP-3009 pay-per-request payments. Free on testnet.">
+  <meta name="twitter:image" content="https://whitechain-x402-facilitator.vercel.app/og.png">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230d1013'/%3E%3Cpath d='M18 18 L46 46 M46 18 L18 46' stroke='%235fe0b4' stroke-width='9' stroke-linecap='round'/%3E%3Ccircle cx='50' cy='50' r='7' fill='%23fbfaf7'/%3E%3C/svg%3E">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebAPI",
+    "name": "Whitechain x402 Facilitator API",
+    "description": "x402 v2 facilitator endpoints (/supported, /verify, /settle) for Whitechain Sepolia eip155:1874. Verifies and settles EIP-3009 payments, payer to merchant, with the facilitator paying gas.",
+    "documentation": "https://whitechain-x402-facilitator.vercel.app/docs.html",
+    "termsOfService": "https://github.com/OGcryptonaut/whitechain-x402-facilitator#policy",
+    "provider": { "@type": "Person", "name": "Sahil Massey", "url": "https://github.com/OGcryptonaut" },
+    "license": "https://www.apache.org/licenses/LICENSE-2.0",
+    "isAccessibleForFree": true
+  }
+  </script>
+  <style>
+    :root { color-scheme: light dark; --bg:#fbfaf7; --raised:#fff; --ink:#14171a; --soft:#454b54; --faint:#6a717c; --line:#dedbd2; --accent:#0a6b52; --accent-soft:#e2f3ec; --code:#14171a; --code-ink:#e9ecef; }
+    @media (prefers-color-scheme: dark) { :root { --bg:#0d1013; --raised:#151a1f; --ink:#eceef1; --soft:#b9c0c9; --faint:#8b94a0; --line:#262d35; --accent:#5fe0b4; --accent-soft:#10271f; --code:#07090b; } }
+    * { box-sizing: border-box; }
+    body { margin:0; background:var(--bg); color:var(--ink); font:17px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif; -webkit-font-smoothing:antialiased; }
+    main { max-width: 46rem; margin: 0 auto; padding: 3rem 1.25rem 4rem; }
+    a { color: var(--accent); }
+    .eyebrow { margin:0 0 .75rem; font:600 .78rem/1.4 ui-monospace,Menlo,Consolas,monospace; letter-spacing:.05em; text-transform:uppercase; color:var(--accent); }
+    h1 { margin:0; font-size:clamp(1.9rem,6vw,2.8rem); line-height:1.1; letter-spacing:-.02em; }
+    .lede { font-size:1.15rem; color:var(--soft); margin:1rem 0 1.5rem; }
+    h2 { font-size:1.2rem; margin:2.25rem 0 .6rem; }
+    p { margin: 0 0 .9rem; }
+    code, pre { font-family: ui-monospace,"SF Mono",Menlo,Consolas,monospace; }
+    :not(pre) > code { font-size:.9em; padding:.1em .35em; border:1px solid var(--line); border-radius:4px; background:var(--raised); overflow-wrap:anywhere; }
+    pre { margin:.75rem 0 1rem; padding:.95rem 1.05rem; border-radius:10px; background:var(--code); color:var(--code-ink); font-size:.85rem; line-height:1.55; overflow-x:auto; border:1px solid var(--line); }
+    table { width:100%; border-collapse:collapse; font-size:.95rem; margin:.5rem 0 1rem; background:var(--raised); border:1px solid var(--line); border-radius:10px; overflow:hidden; }
+    th, td { text-align:left; padding:.55rem .8rem; border-bottom:1px solid var(--line); vertical-align:top; }
+    th { font-weight:600; white-space:nowrap; }
+    tr:last-child th, tr:last-child td { border-bottom:0; }
+    .facts { display:grid; grid-template-columns:repeat(auto-fit,minmax(10rem,1fr)); gap:.6rem; margin:0 0 1rem; padding:0; list-style:none; }
+    .facts li { padding:.65rem .8rem; border:1px solid var(--line); border-radius:8px; background:var(--raised); font-size:.92rem; }
+    .facts b { display:block; font-size:.74rem; text-transform:uppercase; letter-spacing:.05em; color:var(--faint); }
+    .btns { display:flex; flex-wrap:wrap; gap:.6rem; margin:1.25rem 0 0; }
+    .btn { display:inline-block; padding:.6rem 1rem; border-radius:8px; border:1px solid var(--line); background:var(--raised); color:var(--ink); font-weight:600; text-decoration:none; }
+    .btn.primary { background:var(--accent); border-color:var(--accent); color:var(--bg); }
+    .note { padding:.8rem 1rem; border-left:3px solid var(--accent); background:var(--accent-soft); border-radius:0 8px 8px 0; margin:1rem 0; }
+    footer { margin-top:3rem; padding-top:1.25rem; border-top:1px solid var(--line); font-size:.85rem; color:var(--faint); }
+  </style>
+</head>
+<body>
+  <main>
+    <p class="eyebrow">x402 facilitator · Whitechain Sepolia · eip155:1874</p>
+    <h1>Whitechain x402 Facilitator</h1>
+    <p class="lede">This server is a public x402 facilitator for Whitechain, WhiteBIT's EVM L2. Point any standard x402 resource server at it and AI agents can pay your API per request. Payments go straight from the payer to your address; this service verifies the signature, submits the transfer and pays the gas. It never holds funds.</p>
+    <ul class="facts">
+      <li><b>Scheme</b>exact (EIP-3009)</li>
+      <li><b>Network</b>eip155:1874, testnet</li>
+      <li><b>Price</b>Free, rate-limited</li>
+      <li><b>Custody</b>None</li>
+    </ul>
+    <div class="btns">
+      <a class="btn primary" href="https://whitechain-x402-facilitator.vercel.app/docs.html">Documentation</a>
+      <a class="btn" href="https://github.com/OGcryptonaut/whitechain-x402-facilitator">Source on GitHub</a>
+    </div>
+
+    <h2>Endpoints</h2>
+    <table>
+      <tr><th><a href="/supported">GET /supported</a></th><td>Schemes, networks and the facilitator's signer addresses.</td></tr>
+      <tr><th>POST /verify</th><td>Verify an x402 v2 <code>paymentPayload</code> against <code>paymentRequirements</code>.</td></tr>
+      <tr><th>POST /settle</th><td>Submit the signed authorization on chain; returns the transaction hash.</td></tr>
+      <tr><th><a href="/health">GET /health</a></th><td>Status, gas balance of the facilitator wallet and settlement runway.</td></tr>
+      <tr><th><a href="/metrics">GET /metrics</a></th><td>JSON counters: verifies, settles, failures by reason, gas spent.</td></tr>
+    </table>
+
+    <h2>Use it from your API</h2>
+    <p>Set this server's base URL as the facilitator in <code>@x402/express</code>, <code>@x402/hono</code> or <code>@x402/next</code>, and price your route in an EIP-3009 token on <code>eip155:1874</code>:</p>
+<pre>const facilitator = new HTTPFacilitatorClient({ url: "&lt;this server's base URL&gt;" });
+const server = new x402ResourceServer(facilitator).register("eip155:1874", new ExactEvmScheme());
+
+app.use(paymentMiddleware({
+  "GET /weather": {
+    accepts: {
+      scheme: "exact",
+      network: "eip155:1874",
+      payTo: "0xYourMerchantAddress",
+      price: { asset: "0x2E672dFE33EA977FD064E01aDe7d8c73B3Be7fBB", amount: "10000",
+               extra: { name: "Inferit Test Credit", version: "1" } },
+    },
+  },
+}, server));</pre>
+    <p>Agents pay with <code>@x402/fetch</code> and <code>ExactEvmScheme</code>; they need the token, not WBT. The full quickstart, the API reference and self-hosting instructions are in the <a href="https://whitechain-x402-facilitator.vercel.app/docs.html">documentation</a>.</p>
+
+    <div class="note"><p><strong>Testnet policy.</strong> Settlement gas is sponsored within per-IP, per-payer and per-merchant rate limits and a daily gas budget. Addresses on the sanctions denylist are refused. Signatures are never logged. Testnet tokens have no value.</p></div>
+
+    <footer>
+      <p>Open source under Apache-2.0. Built by <a href="https://github.com/OGcryptonaut">Sahil Massey</a> (Inferit). Independent project: not affiliated with, sponsored by or endorsed by Whitechain, WhiteBIT, Coinbase, Circle or the x402 Foundation. Whitechain and WhiteBIT are trademarks of their respective owners.</p>
+    </footer>
+  </main>
+</body>
+</html>

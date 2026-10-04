@@ -1,0 +1,38 @@
+Whitechain x402 Facilitator
+Copyright 2026 Sahil Massey and contributors
+
+This product is licensed under the Apache License, Version 2.0 (see LICENSE).
+
+This product is an independent, community-built open-source project by
+Sahil Massey (Inferit). It is not affiliated with, sponsored by, or endorsed
+by Whitechain, WhiteBIT, Coinbase, Circle, or the x402 Foundation.
+
+Third-party software
+--------------------
+
+This product depends on, and at runtime loads, the following third-party
+packages. Each is distributed under its own licence, which is included in the
+package's own distribution:
+
+  - @x402/core, @x402/evm (x402 Foundation) - Apache License 2.0
+    https://github.com/x402-foundation/x402
+  - viem (weth, LLC) - MIT License
+    https://github.com/wevm/viem
+  - Fastify (the Fastify team) - MIT License
+    https://github.com/fastify/fastify
+  - pino (the pino contributors) - MIT License
+    https://github.com/pinojs/pino
+  - zod (Colin McDonnell) - MIT License
+    https://github.com/colinhacks/zod
+
+The examples additionally use @x402/express, @x402/hono and @x402/fetch
+(Apache License 2.0), Express (MIT) and Hono (MIT).
+
+Trademarks
+----------
+
+"Whitechain", "WhiteBIT" and "WBT" are trademarks of their respective owners.
+"x402" is a protocol name stewarded by the x402 Foundation. "USDC" is a
+trademark of Circle Internet Group, Inc. These names are used here only to
+describe compatibility and interoperability; their use does not imply any
+affiliation with or endorsement by the trademark holders.

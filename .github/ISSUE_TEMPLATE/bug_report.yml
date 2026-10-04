@@ -1,0 +1,47 @@
+name: Bug report
+description: Something in the facilitator, the examples or the docs does not behave as documented.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the report. Never paste private keys, API keys or full payment signatures; a transaction hash or the `invalidReason` / `errorReason` string is enough.
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Facilitator service (/verify, /settle, /supported)
+        - Policy (rate limits, gas budget, API keys, denylist)
+        - Health / metrics
+        - Examples (merchant-express, merchant-hono, agent-fetch)
+        - Documentation / site
+        - Docker / deployment
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: Facilitator version (from `/health`) or commit, and the `@x402/*` versions on your side.
+      placeholder: "0.1.0, @x402/express 2.28.0"
+    validations:
+      required: true
+  - type: input
+    id: network
+    attributes:
+      label: Network
+      placeholder: "eip155:1874"
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: Steps to reproduce, the request you made (redacted), the response you got and what you expected.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence
+      description: Transaction hash, `invalidReason` / `errorReason`, relevant log lines (signatures and keys are redacted by the service; please check anyway).
+      render: text

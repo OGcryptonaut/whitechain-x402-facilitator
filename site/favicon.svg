@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Whitechain x402 Facilitator">
+  <rect width="64" height="64" rx="14" fill="#0d1013"/>
+  <path d="M18 18 L46 46 M46 18 L18 46" stroke="#5fe0b4" stroke-width="9" stroke-linecap="round"/>
+  <circle cx="50" cy="50" r="7" fill="#fbfaf7"/>
+  <path d="M46.5 50.2 L49.2 52.8 L54 47.6" stroke="#0d1013" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

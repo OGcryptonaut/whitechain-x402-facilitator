@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://whitechain-x402-facilitator.vercel.app/sitemap.xml

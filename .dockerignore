@@ -1,0 +1,14 @@
+.git
+.github
+node_modules
+examples/**/node_modules
+dist
+coverage
+test-results
+.forge-out
+.forge-cache
+*.log
+.env
+.env.*
+!.env.example
+.DS_Store

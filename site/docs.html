@@ -1,0 +1,482 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Whitechain x402 Facilitator docs: quickstart, API, self-hosting</title>
+  <meta name="description" content="Developer docs for the Whitechain x402 Facilitator: accept x402 payments on Whitechain with Express or Hono, pay from agents, API reference, self-hosting.">
+  <link rel="canonical" href="https://whitechain-x402-facilitator.vercel.app/docs.html">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="author" content="Sahil Massey">
+  <meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0d1013" media="(prefers-color-scheme: dark)">
+  <!-- google-site-verification -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Whitechain x402 Facilitator">
+  <meta property="og:title" content="Whitechain x402 Facilitator documentation">
+  <meta property="og:description" content="Accept x402 payments on Whitechain with Express, Hono or Next.js; pay from AI agents with @x402/fetch; HTTP API reference; limits; self-hosting; mainnet.">
+  <meta property="og:url" content="https://whitechain-x402-facilitator.vercel.app/docs.html">
+  <meta property="og:image" content="https://whitechain-x402-facilitator.vercel.app/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Whitechain x402 Facilitator documentation">
+  <meta name="twitter:description" content="Quickstart, HTTP API reference, limits and self-hosting for x402 payments on Whitechain.">
+  <meta name="twitter:image" content="https://whitechain-x402-facilitator.vercel.app/og.png">
+  <link rel="icon" href="favicon.ico" sizes="32x32">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="stylesheet" href="styles.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "TechArticle",
+        "@id": "https://whitechain-x402-facilitator.vercel.app/docs.html#article",
+        "headline": "Whitechain x402 Facilitator documentation",
+        "description": "How to accept x402 payments on Whitechain, pay from agents, the facilitator HTTP API, limits, self-hosting and mainnet.",
+        "url": "https://whitechain-x402-facilitator.vercel.app/docs.html",
+        "inLanguage": "en",
+        "dateModified": "2026-10-04",
+        "author": { "@type": "Person", "name": "Sahil Massey", "url": "https://github.com/OGcryptonaut" },
+        "about": {
+          "@type": "SoftwareApplication",
+          "@id": "https://whitechain-x402-facilitator.vercel.app/#app",
+          "name": "Whitechain x402 Facilitator",
+          "url": "https://whitechain-x402-facilitator.vercel.app/"
+        },
+        "proficiencyLevel": "Beginner",
+        "dependencies": "Node.js 22, @x402/core 2.28, @x402/evm 2.28"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Whitechain x402 Facilitator", "item": "https://whitechain-x402-facilitator.vercel.app/" },
+          { "@type": "ListItem", "position": 2, "name": "Documentation", "item": "https://whitechain-x402-facilitator.vercel.app/docs.html" }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="top">
+    <div class="wrap">
+      <a class="brand" href="./" aria-label="Whitechain x402 Facilitator home">
+        <svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#0d1013"/><path d="M18 18 L46 46 M46 18 L18 46" stroke="#5fe0b4" stroke-width="9" stroke-linecap="round"/><circle cx="50" cy="50" r="7" fill="#fbfaf7"/><path d="M46.5 50.2 L49.2 52.8 L54 47.6" stroke="#0d1013" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>Whitechain x402 Facilitator</span>
+      </a>
+      <nav aria-label="Primary">
+        <a href="./">Home</a>
+        <a href="docs.html" aria-current="page">Docs</a>
+        <a href="#api">API</a>
+        <a href="#self-hosting">Self-host</a>
+        <a href="https://github.com/OGcryptonaut/whitechain-x402-facilitator">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="wrap docs">
+    <aside class="toc" aria-label="On this page">
+      <h2>On this page</h2>
+      <ol>
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#merchants">Accept payments</a></li>
+        <li><a href="#agents">Pay from an agent</a></li>
+        <li><a href="#tokens">Networks and tokens</a></li>
+        <li><a href="#api">HTTP API</a></li>
+        <li><a href="#errors">Reason codes</a></li>
+        <li><a href="#limits">Limits and API keys</a></li>
+        <li><a href="#self-hosting">Self-hosting</a></li>
+        <li><a href="#security">Security</a></li>
+        <li><a href="#mainnet">Mainnet</a></li>
+        <li><a href="#troubleshooting">Troubleshooting</a></li>
+      </ol>
+    </aside>
+
+    <article>
+      <h1>Documentation</h1>
+      <p class="lede">Everything needed to accept or make x402 payments on Whitechain through the facilitator: integration for merchants and agents, the HTTP API, operating limits and how to run your own.</p>
+
+      <section id="overview" aria-labelledby="overview-h">
+        <h2 id="overview-h">Overview</h2>
+        <p>The Whitechain x402 Facilitator is a standard <strong>x402 v2 facilitator</strong>. It implements the three endpoints the official <code>@x402/core</code> <code>HTTPFacilitatorClient</code> calls (<code>GET /supported</code>, <code>POST /verify</code>, <code>POST /settle</code>) and registers the official <code>@x402/evm</code> <code>exact</code> scheme for Whitechain. Nothing in the protocol is Whitechain-specific; what the project adds is a running, funded, policy-guarded facilitator for a chain the public facilitators do not cover, plus the operational layer (rate limits, gas budgets, API keys, sanctions screening, health, metrics).</p>
+        <p>Public endpoint: <code>https://x402-facilitator-production-ff5f.up.railway.app</code>. Networks: Whitechain Sepolia <code>eip155:1874</code> today; mainnet as a configuration entry. Payment flow: payer signs an EIP-3009 <code>transferWithAuthorization</code> for the exact amount; the facilitator verifies it, your API serves the response, the facilitator broadcasts the transfer (payer to your <code>payTo</code>) and pays the WBT gas.</p>
+        <div class="note"><p>In the snippets, <code>0x2E672dFE33EA977FD064E01aDe7d8c73B3Be7fBB</code> is the Inferit Test Credit (ITC) contract on Whitechain Sepolia, and <code>0xYourMerchantAddress</code> is the wallet that receives payments. An agent gets 1,000 test ITC with no gas from <code>POST https://api-production-c74b9.up.railway.app/v1/faucet</code> with <code>{"address":"0x…"}</code> (once per address per 24 h).</p></div>
+      </section>
+
+      <section id="merchants" aria-labelledby="merchants-h">
+        <h2 id="merchants-h">Accept x402 payments on Whitechain</h2>
+        <p>Any x402 resource server works. The three things that differ from a Base or Solana setup: the facilitator URL, the network id <code>eip155:1874</code>, and an explicit token price, because the x402 SDK has no "$" default asset for Whitechain.</p>
+
+        <h3>Express</h3>
+        <span class="label">npm install @x402/express @x402/core @x402/evm express</span>
+<pre><code><span class="k">import</span> express <span class="k">from</span> <span class="s">"express"</span>;
+<span class="k">import</span> { paymentMiddleware, x402ResourceServer } <span class="k">from</span> <span class="s">"@x402/express"</span>;
+<span class="k">import</span> { HTTPFacilitatorClient } <span class="k">from</span> <span class="s">"@x402/core/server"</span>;
+<span class="k">import</span> { ExactEvmScheme } <span class="k">from</span> <span class="s">"@x402/evm/exact/server"</span>;
+
+<span class="k">const</span> facilitator = <span class="k">new</span> HTTPFacilitatorClient({ url: <span class="s">"https://x402-facilitator-production-ff5f.up.railway.app"</span> });
+<span class="k">const</span> server = <span class="k">new</span> x402ResourceServer(facilitator).register(<span class="s">"eip155:1874"</span>, <span class="k">new</span> ExactEvmScheme());
+
+<span class="k">const</span> app = express();
+app.use(paymentMiddleware({
+  <span class="s">"GET /weather"</span>: {
+    accepts: {
+      scheme: <span class="s">"exact"</span>,
+      network: <span class="s">"eip155:1874"</span>,
+      payTo: <span class="s">"0xYourMerchantAddress"</span>,
+      price: {
+        asset: <span class="s">"0x2E672dFE33EA977FD064E01aDe7d8c73B3Be7fBB"</span>,
+        amount: <span class="s">"10000"</span>,                                  <span class="c">// 0.01 ITC, 6 decimals</span>
+        extra: { name: <span class="s">"Inferit Test Credit"</span>, version: <span class="s">"1"</span> }, <span class="c">// the token's EIP-712 domain</span>
+      },
+      maxTimeoutSeconds: 120,
+    },
+    description: <span class="s">"Current weather, paid per request on Whitechain"</span>,
+    mimeType: <span class="s">"application/json"</span>,
+  },
+}, server));
+
+app.get(<span class="s">"/weather"</span>, (_req, res) =&gt; res.json({ city: <span class="s">"Lisbon"</span>, temperatureC: 24 }));
+app.listen(4021);</code></pre>
+
+        <h3>Hono</h3>
+        <span class="label">npm install @x402/hono @x402/core @x402/evm hono @hono/node-server</span>
+<pre><code><span class="k">import</span> { Hono } <span class="k">from</span> <span class="s">"hono"</span>;
+<span class="k">import</span> { serve } <span class="k">from</span> <span class="s">"@hono/node-server"</span>;
+<span class="k">import</span> { paymentMiddleware, x402ResourceServer } <span class="k">from</span> <span class="s">"@x402/hono"</span>;
+<span class="k">import</span> { HTTPFacilitatorClient } <span class="k">from</span> <span class="s">"@x402/core/server"</span>;
+<span class="k">import</span> { ExactEvmScheme } <span class="k">from</span> <span class="s">"@x402/evm/exact/server"</span>;
+
+<span class="k">const</span> facilitator = <span class="k">new</span> HTTPFacilitatorClient({ url: <span class="s">"https://x402-facilitator-production-ff5f.up.railway.app"</span> });
+<span class="k">const</span> server = <span class="k">new</span> x402ResourceServer(facilitator).register(<span class="s">"eip155:1874"</span>, <span class="k">new</span> ExactEvmScheme());
+
+<span class="k">const</span> app = <span class="k">new</span> Hono();
+app.use(paymentMiddleware({
+  <span class="s">"POST /summarize"</span>: {
+    accepts: {
+      scheme: <span class="s">"exact"</span>,
+      network: <span class="s">"eip155:1874"</span>,
+      payTo: <span class="s">"0xYourMerchantAddress"</span>,
+      price: { asset: <span class="s">"0x2E672dFE33EA977FD064E01aDe7d8c73B3Be7fBB"</span>, amount: <span class="s">"2500"</span>, extra: { name: <span class="s">"Inferit Test Credit"</span>, version: <span class="s">"1"</span> } },
+    },
+  },
+}, server));
+
+app.post(<span class="s">"/summarize"</span>, <span class="k">async</span> (c) =&gt; c.json({ summary: <span class="s">"..."</span> }));
+serve({ fetch: app.fetch, port: 4022 });</code></pre>
+
+        <h3>Next.js</h3>
+        <p><code>@x402/next</code> takes the same <code>routes</code> object and <code>x402ResourceServer</code>; wrap your route handlers or use the middleware export, exactly as in the <a href="https://github.com/x402-foundation/x402/tree/main/typescript/packages/http/next">package README</a>, with the facilitator and network from the Express example.</p>
+
+        <h3>Price in dollars instead of atomic units</h3>
+        <p>If you prefer <code>price: "$0.01"</code>, register a money parser on the scheme so the SDK knows which Whitechain token a dollar means:</p>
+<pre><code><span class="k">import</span> { convertToTokenAmount } <span class="k">from</span> <span class="s">"@x402/core/utils"</span>;
+
+<span class="k">const</span> scheme = <span class="k">new</span> ExactEvmScheme().registerMoneyParser(<span class="k">async</span> (amount, network) =&gt;
+  network === <span class="s">"eip155:1874"</span>
+    ? { asset: <span class="s">"0x2E672dFE33EA977FD064E01aDe7d8c73B3Be7fBB"</span>, amount: convertToTokenAmount(amount, 6), extra: { name: <span class="s">"Inferit Test Credit"</span>, version: <span class="s">"1"</span> } }
+    : <span class="k">null</span>,
+);
+<span class="k">const</span> server = <span class="k">new</span> x402ResourceServer(facilitator).register(<span class="s">"eip155:1874"</span>, scheme);</code></pre>
+
+        <h3>Merchant API key (optional)</h3>
+        <p>The public facilitator works without a key. A key raises your rate limits and gives your <code>payTo</code> its own gas budget. Send it on every call with <code>createAuthHeaders</code>, which must return headers keyed by path:</p>
+<pre><code><span class="k">const</span> facilitator = <span class="k">new</span> HTTPFacilitatorClient({
+  url: <span class="s">"https://x402-facilitator-production-ff5f.up.railway.app"</span>,
+  createAuthHeaders: <span class="k">async</span> () =&gt; {
+    <span class="k">const</span> headers = { <span class="s">"X-API-Key"</span>: process.env.FACILITATOR_API_KEY! };
+    <span class="k">return</span> { verify: headers, settle: headers, supported: headers };
+  },
+});</code></pre>
+      </section>
+
+      <section id="agents" aria-labelledby="agents-h">
+        <h2 id="agents-h">Pay from an AI agent</h2>
+        <p>Clients do not talk to the facilitator at all; they talk to your API and sign. Use <code>@x402/fetch</code> (or <code>@x402/axios</code>) with the EVM <code>exact</code> client scheme. Two Whitechain specifics: register the network, and allow the token in <code>spendControls</code>, because the SDK refuses tokens outside its default list unless you opt in.</p>
+        <span class="label">npm install @x402/fetch @x402/evm viem</span>
+<pre><code><span class="k">import</span> { wrapFetchWithPaymentFromConfig, decodePaymentResponseHeader } <span class="k">from</span> <span class="s">"@x402/fetch"</span>;
+<span class="k">import</span> { ExactEvmScheme } <span class="k">from</span> <span class="s">"@x402/evm/exact/client"</span>;
+<span class="k">import</span> { privateKeyToAccount } <span class="k">from</span> <span class="s">"viem/accounts"</span>;
+
+<span class="k">const</span> account = privateKeyToAccount(process.env.AGENT_PRIVATE_KEY <span class="k">as</span> <span class="s">`0x${string}`</span>);
+
+<span class="k">const</span> fetchWithPayment = wrapFetchWithPaymentFromConfig(fetch, {
+  schemes: [{ network: <span class="s">"eip155:1874"</span>, client: <span class="k">new</span> ExactEvmScheme(account) }],
+  spendControls: {
+    allowedAssets: [{ network: <span class="s">"eip155:1874"</span>, asset: <span class="s">"0x2E672dFE33EA977FD064E01aDe7d8c73B3Be7fBB"</span>, maxAmountPerPayment: <span class="s">"100000"</span> }],
+  },
+});
+
+<span class="k">const</span> res = <span class="k">await</span> fetchWithPayment(<span class="s">"https://api.example.com/weather"</span>);
+console.log(<span class="k">await</span> res.json());
+<span class="k">const</span> receipt = decodePaymentResponseHeader(res.headers.get(<span class="s">"PAYMENT-RESPONSE"</span>)!);
+console.log(receipt.transaction); <span class="c">// https://explorer.testnet.whitechain.io/tx/&lt;hash&gt;</span></code></pre>
+        <p>The agent's wallet needs ITC (from the token's faucet) and <strong>no WBT</strong>: the facilitator pays gas. Keep the key in an environment variable and use a throwaway key on testnet.</p>
+      </section>
+
+      <section id="tokens" aria-labelledby="tokens-h">
+        <h2 id="tokens-h">Networks and tokens</h2>
+        <div class="table">
+          <table>
+            <thead><tr><th scope="col">Network</th><th scope="col">CAIP-2</th><th scope="col">RPC</th><th scope="col">Explorer</th><th scope="col">Gas</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Whitechain Sepolia</th><td><code>eip155:1874</code></td><td><code>https://rpc.testnet.whitechain.io</code></td><td><a href="https://explorer.testnet.whitechain.io">explorer.testnet.whitechain.io</a></td><td>test WBT (<a href="https://faucet.testnet.whitechain.io">faucet</a>)</td></tr>
+              <tr><th scope="row">Whitechain mainnet</th><td><code>eip155:&lt;id&gt;</code></td><td colspan="3">Config entry; chain id, RPC and explorer as published by Whitechain at launch. See <a href="#mainnet">Mainnet</a>.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="table">
+          <table>
+            <thead><tr><th scope="col">Token</th><th scope="col">Network</th><th scope="col">Standard</th><th scope="col">EIP-712 domain</th><th scope="col">Decimals</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Inferit Test Credit (ITC)</th><td>Whitechain Sepolia</td><td>EIP-3009 + EIP-2612, public faucet (1,000 ITC per address per 24 h)</td><td>name <code>Inferit Test Credit</code>, version <code>1</code></td><td>6</td></tr>
+              <tr><th scope="row">USDC.e</th><td>Whitechain mainnet</td><td>Circle FiatToken (EIP-3009)</td><td>name <code>USD Coin</code>, version <code>2</code> (confirm on the deployed contract)</td><td>6</td></tr>
+              <tr><th scope="row">Any ERC-20</th><td>any</td><td>Permit2 (<code>exact</code>) and <code>upto</code>, where the x402 Permit2 proxies exist</td><td>n/a</td><td>token's</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>The facilitator accepts any token on a configured network unless the operator sets an asset allowlist for that network, in which case other tokens are refused with <code>unsupported_asset</code>.</p>
+      </section>
+
+      <section id="api" aria-labelledby="api-h">
+        <h2 id="api-h">HTTP API reference</h2>
+        <p>All bodies are JSON. Shapes follow the x402 v2 types in <code>@x402/core/types</code>; <code>x402Version</code> is <code>2</code>. Amounts are decimal strings of atomic units. The facilitator always answers policy refusals with an x402-shaped body so the official client raises a typed <code>VerifyError</code> or <code>SettleError</code>.</p>
+
+        <h3><span class="method">GET</span> /supported</h3>
+        <p>What the facilitator can verify and settle. Middleware calls it once on start and validates its routes against it.</p>
+<pre><code>{
+  "kinds": [{ "x402Version": 2, "scheme": "exact", "network": "eip155:1874" }],
+  "extensions": ["eip2612GasSponsoring"],
+  "signers": { "eip155:*": ["0xFacilitatorSignerAddress"] }
+}</code></pre>
+
+        <h3><span class="method">POST</span> /verify</h3>
+        <span class="label">Request</span>
+<pre><code>{
+  "x402Version": 2,
+  "paymentPayload": {
+    "x402Version": 2,
+    "resource": { "url": "https://api.example.com/weather" },
+    "accepted": { "...": "the PaymentRequirements the client chose" },
+    "payload": {
+      "signature": "0x...",
+      "authorization": {
+        "from": "0xPayer", "to": "0xYourMerchantAddress", "value": "10000",
+        "validAfter": "0", "validBefore": "1790000000", "nonce": "0x..."
+      }
+    }
+  },
+  "paymentRequirements": {
+    "scheme": "exact", "network": "eip155:1874",
+    "asset": "0x2E672dFE33EA977FD064E01aDe7d8c73B3Be7fBB", "amount": "10000",
+    "payTo": "0xYourMerchantAddress", "maxTimeoutSeconds": 120,
+    "extra": { "name": "Inferit Test Credit", "version": "1" }
+  }
+}</code></pre>
+        <span class="label">Response 200</span>
+<pre><code>{ "isValid": true, "payer": "0xPayer" }
+{ "isValid": false, "invalidReason": "invalid_exact_evm_payload_authorization_valid_before", "invalidMessage": "...", "payer": "0xPayer" }</code></pre>
+        <p>Checks, in order: request schema (the payload must be exactly one of EIP-3009 <code>authorization</code> or Permit2 <code>permit2Authorization</code>), API key, scheme and network supported, asset allowed, rate limits (caller, facilitator-wide, payer, payee), payer and payee not denylisted, no duplicate of an in-flight or recently settled authorization, gas budget and signer balance; then the <code>@x402/evm</code> scheme: EIP-712 signature (EOA, EIP-1271 and ERC-6492), <code>to</code> equals <code>payTo</code>, <code>value</code> equals <code>amount</code>, validity window, nonce unused, balance sufficient, and an on-chain simulation of the transfer within <code>MAX_SETTLE_GAS</code>.</p>
+
+        <h3><span class="method">POST</span> /settle</h3>
+        <p>Same request body as <code>/verify</code>. The facilitator runs the same checks, claims the authorization so a concurrent settle gets <code>duplicate_settlement</code>, reserves gas budget, re-verifies and simulates, broadcasts <code>transferWithAuthorization</code> and waits for the receipt (bounded by <code>CONFIRMATION_TIMEOUT_MS</code>). The receipt's real cost replaces the reservation.</p>
+        <span class="label">Response 200</span>
+<pre><code>{ "success": true, "transaction": "0x...", "network": "eip155:1874", "payer": "0xPayer" }
+{ "success": false, "errorReason": "gas_budget_exceeded", "errorMessage": "...", "transaction": "", "network": "eip155:1874" }</code></pre>
+        <p>If the receipt does not arrive within the timeout the response is <code>success: false</code> with <code>errorReason: "settlement_pending"</code> and the broadcast hash in <code>transaction</code>; the transfer may still confirm. A retried settle for the same authorization reconciles against that hash instead of broadcasting again.</p>
+
+        <h3><span class="method">GET</span> /health</h3>
+        <p>Liveness plus the number an operator cares about: how many settlements the wallet can still pay for. <code>status</code> is <code>ok</code> or <code>degraded</code> (signer below <code>LOW_RUNWAY_SETTLES</code> affordable settlements, or an RPC unreachable); the endpoint always answers HTTP 200, so alert on the <code>status</code> field, not the HTTP code.</p>
+<pre><code>{
+  "status": "ok",
+  "service": "whitechain-x402-facilitator",
+  "x402Version": 2,
+  "uptimeSeconds": 86400,
+  "facilitator": "0xFacilitatorSignerAddress",
+  "denylistSize": 412,
+  "networks": [
+    {
+      "network": "eip155:1874", "name": "Whitechain Sepolia", "chainId": 1874,
+      "explorer": "https://explorer.testnet.whitechain.io", "nativeSymbol": "WBT",
+      "schemes": ["exact"],
+      "permit2": { "deployed": true, "exactProxy": false, "uptoProxy": false, "probedAt": "2026-10-04T18:00:00.000Z" },
+      "facilitator": "0xFacilitatorSignerAddress",
+      "gasBudget": { "globalDaily": "1000000000000000000", "globalSpentToday": "41230000000000000", "perPayToDaily": "100000000000000000", "resetsInSeconds": 21600 },
+      "rpcOk": true, "blockNumber": "9547824",
+      "gasBalanceWei": "1234500000000000000", "gasBalance": "1.2345 WBT",
+      "maxFeePerGasWei": "5001000000", "estimatedSettleCostWei": "600120000000000",
+      "settleRunway": 2056, "lowBalance": false
+    }
+  ]
+}</code></pre>
+
+        <h3><span class="method">GET</span> /metrics</h3>
+        <p>Process counters as JSON (no Prometheus dependency; scrape and convert if you need it). Reasons are bucketed so you can see why payments fail without the facilitator ever logging a payload:</p>
+<pre><code>{
+  "startedAt": "2026-10-04T18:00:00.000Z", "uptimeSeconds": 3600,
+  "verify": { "total": 120, "valid": 115, "invalid": 5, "errors": 0, "byReason": { "invalid_exact_evm_insufficient_balance": 5 } },
+  "settle": { "total": 110, "success": 109, "failed": 1, "pending": 0, "errors": 0, "byReason": {}, "settledAmountAtomic": { "eip155:1874|0xitc…": "1100000" } },
+  "policy": { "rateLimited": 3, "denylisted": 0, "gasBudgetExceeded": 0, "gasCapExceeded": 0, "duplicate": 1, "unauthorized": 0, "unsupported": 0, "invalidRequest": 0 },
+  "gas": { "spentWei": { "eip155:1874": "41230000000000000", "total": "41230000000000000" }, "txCount": 109 },
+  "http": { "requests": 420, "supported": 12 },
+  "budget": { "day": "2026-10-04", "globalSpentTodayWei": "41230000000000000", "globalDailyLimitWei": "1000000000000000000", "perPayToDailyLimitWei": "100000000000000000", "totalSpentWei": "41230000000000000", "resetsInSeconds": 21600 },
+  "fees": { "mode": "off" },
+  "dedupe": { "tracked": 12 },
+  "rateLimiters": { "callers": 8, "payers": 5, "payTos": 3 }
+}</code></pre>
+
+        <h3>Headers</h3>
+        <ul>
+          <li><code>X-API-Key</code> (request, optional): merchant key.</li>
+          <li><code>Retry-After</code> (response, on 429 and 503): seconds until the bucket refills, the daily budget resets, or the RPC / gas wallet should be retried.</li>
+          <li><code>WWW-Authenticate</code> (response, on 401): names the <code>X-API-Key</code> header.</li>
+        </ul>
+        <p>Bodies are limited to 64 KiB (413) and must be <code>application/json</code> (415); both answer in the protocol shape with <code>invalid_request</code>.</p>
+      </section>
+
+      <section id="errors" aria-labelledby="errors-h">
+        <h2 id="errors-h">Reason codes</h2>
+        <p>Facilitator-level reasons (stable strings; branch on them in <code>invalidReason</code> / <code>errorReason</code>) use a non-2xx status, which <code>HTTPFacilitatorClient</code> turns into a typed <code>VerifyError</code> / <code>SettleError</code>. Verdicts about the payment itself come back as HTTP 200 with <code>isValid: false</code> / <code>success: false</code>; the scheme-level ones come from <code>@x402/evm</code> and mostly start with <code>invalid_exact_evm_</code>.</p>
+        <div class="table">
+          <table>
+            <thead><tr><th scope="col">Reason</th><th scope="col">HTTP</th><th scope="col">Meaning</th></tr></thead>
+            <tbody>
+              <tr><th scope="row"><code>invalid_request</code></th><td>400 (413, 415)</td><td>Body failed schema validation, <code>x402Version</code> unsupported, <code>accepted</code> network/scheme differ from the requirements, or the payload is not exactly one of EIP-3009 / Permit2.</td></tr>
+              <tr><th scope="row"><code>unsupported_scheme_network</code></th><td>400</td><td>No scheme registered for that (version, scheme, network); see <code>/supported</code>.</td></tr>
+              <tr><th scope="row"><code>unsupported_asset</code></th><td>400</td><td>Token not on the network's allowlist.</td></tr>
+              <tr><th scope="row"><code>invalid_api_key</code></th><td>401</td><td><code>X-API-Key</code> missing (when required), unknown, or not allowed for this <code>payTo</code>.</td></tr>
+              <tr><th scope="row"><code>address_denylisted</code></th><td>403</td><td>Payer or payee is on the sanctions denylist.</td></tr>
+              <tr><th scope="row"><code>fee_policy_rejected</code></th><td>403</td><td>The fee policy declined to sponsor this payment (settle).</td></tr>
+              <tr><th scope="row"><code>duplicate_settlement</code></th><td>409</td><td>Same authorization is in flight or was settled recently by this facilitator.</td></tr>
+              <tr><th scope="row"><code>rate_limit_exceeded</code></th><td>429</td><td>Caller (IP or key), facilitator-wide, per-payer or per-payTo bucket empty. See <code>Retry-After</code>.</td></tr>
+              <tr><th scope="row"><code>gas_budget_exceeded</code></th><td>429</td><td>Daily gas budget (global, per payTo or per key) spent; <code>Retry-After</code> points at 00:00 UTC.</td></tr>
+              <tr><th scope="row"><code>facilitator_out_of_gas</code></th><td>503</td><td>Signer cannot afford a settlement on that network.</td></tr>
+              <tr><th scope="row"><code>rpc_unavailable</code></th><td>503</td><td>The network's RPC did not answer; nothing was checked or broadcast.</td></tr>
+              <tr><th scope="row"><code>unexpected_verify_error</code>, <code>unexpected_settle_error</code></th><td>500</td><td>Unhandled exception (the message never contains URLs).</td></tr>
+              <tr><th scope="row"><code>settle_gas_cap_exceeded</code></th><td>200</td><td>Simulated settlement needs more gas than <code>MAX_SETTLE_GAS</code>.</td></tr>
+              <tr><th scope="row"><code>settlement_pending</code></th><td>200</td><td>Broadcast, receipt not seen within the timeout; <code>transaction</code> carries the hash.</td></tr>
+              <tr><th scope="row"><code>invalid_exact_evm_*</code>, <code>permit2_*</code>, <code>eip6492_factory_not_allowed</code></th><td>200</td><td>Scheme-level: bad signature, wrong recipient or amount, expired, nonce used, insufficient balance, token without EIP-3009, simulation failed, counterfactual wallet, or reverted on chain (<code>invalid_exact_evm_transaction_failed</code>, with the hash).</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="limits" aria-labelledby="limits-h">
+        <h2 id="limits-h">Limits, budgets and API keys</h2>
+        <p>Testnet is free. These are the defaults of the public facilitator; self-hosters set their own.</p>
+        <div class="table">
+          <table>
+            <thead><tr><th scope="col">Control</th><th scope="col">Default</th><th scope="col">Setting</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Requests per client IP</th><td>120 / minute</td><td><code>RATE_LIMIT_IP_PER_WINDOW</code>, <code>RATE_LIMIT_WINDOW_SECONDS</code></td></tr>
+              <tr><th scope="row">Requests per payer address</th><td>30 / minute</td><td><code>RATE_LIMIT_PAYER_PER_WINDOW</code></td></tr>
+              <tr><th scope="row">Requests per payTo address</th><td>120 / minute</td><td><code>RATE_LIMIT_PAYTO_PER_WINDOW</code></td></tr>
+              <tr><th scope="row">Requests facilitator-wide</th><td>1,200 / minute</td><td><code>RATE_LIMIT_GLOBAL_PER_WINDOW</code></td></tr>
+              <tr><th scope="row">Daily gas budget, global</th><td>1 WBT</td><td><code>GAS_BUDGET_GLOBAL_DAILY</code></td></tr>
+              <tr><th scope="row">Daily gas budget per payTo</th><td>0.1 WBT</td><td><code>GAS_BUDGET_PER_PAYTO_DAILY</code></td></tr>
+              <tr><th scope="row">Gas per settlement</th><td>300,000 units</td><td><code>MAX_SETTLE_GAS</code></td></tr>
+              <tr><th scope="row">API key multiplier</th><td>10x the rate limits, own budget</td><td><code>API_KEYS</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Buckets are token buckets that refill evenly over the window; the payer and payTo buckets are only consumed by payments that verify, so a forged payload cannot use up someone else's quota. Budgets are checked on <code>/verify</code> too, so a merchant hears about an exhausted budget before serving the response. A refused <code>/settle</code> never broadcasts, so a refusal costs nobody anything; the merchant's middleware returns its settlement-failed response and the agent can retry later.</p>
+        <p>To get a merchant API key for the public facilitator, open a <a href="https://github.com/OGcryptonaut/whitechain-x402-facilitator/issues/new?template=api_key_request.yml">key request issue</a> with your <code>payTo</code> address and expected volume.</p>
+      </section>
+
+      <section id="self-hosting" aria-labelledby="sh-h">
+        <h2 id="sh-h">Self-hosting</h2>
+        <p>Requirements: Node 22 (or Docker), a wallet funded with WBT for gas, an RPC URL. The signer key is read from the environment only.</p>
+        <span class="label">Docker</span>
+<pre><code>docker build -t whitechain-x402-facilitator .
+docker run -p 8402:8402 \
+  -e FACILITATOR_PRIVATE_KEY=0x... \
+  -e GAS_BUDGET_GLOBAL_DAILY=1 \
+  whitechain-x402-facilitator
+curl -s localhost:8402/supported</code></pre>
+        <span class="label">From source</span>
+<pre><code>git clone https://github.com/OGcryptonaut/whitechain-x402-facilitator
+cd whitechain-x402-facilitator
+npm ci
+cp .env.example .env     <span class="c"># set FACILITATOR_PRIVATE_KEY</span>
+npm run build &amp;&amp; npm start</code></pre>
+        <h3>Environment variables</h3>
+        <div class="table">
+          <table>
+            <thead><tr><th scope="col">Variable</th><th scope="col">Default</th><th scope="col">Purpose</th></tr></thead>
+            <tbody>
+              <tr><th scope="row"><code>FACILITATOR_PRIVATE_KEY</code></th><td>required</td><td>0x-prefixed 32-byte key of the gas wallet. Never logged.</td></tr>
+              <tr><th scope="row"><code>NETWORKS</code></th><td>Whitechain Sepolia</td><td>JSON array (or path to a JSON file) of <code>{ id, name, rpc, explorer, nativeSymbol, testnet, assets? }</code>.</td></tr>
+              <tr><th scope="row"><code>SCHEMES</code></th><td><code>exact,upto</code></td><td>Schemes to register. <code>upto</code> is only advertised where the x402 Permit2 proxies exist.</td></tr>
+              <tr><th scope="row"><code>PORT</code>, <code>HOST</code></th><td>8402, 0.0.0.0</td><td>Listen address.</td></tr>
+              <tr><th scope="row"><code>TRUST_PROXY</code></th><td>false</td><td><code>true</code> or hop count when behind a reverse proxy (client IP for rate limits).</td></tr>
+              <tr><th scope="row"><code>SIMULATE_IN_SETTLE</code></th><td>true</td><td>Simulate before broadcasting so doomed transactions never cost gas.</td></tr>
+              <tr><th scope="row"><code>CONFIRMATION_TIMEOUT_MS</code></th><td>60000</td><td>Receipt wait bound; keep it below your platform's request deadline.</td></tr>
+              <tr><th scope="row"><code>MAX_SETTLE_GAS</code>, <code>SETTLE_GAS_ESTIMATE</code></th><td>300000, 120000</td><td>Per-settlement gas cap and the reservation used before the real cost is known.</td></tr>
+              <tr><th scope="row"><code>RATE_LIMIT_*</code></th><td>see above</td><td>Window and per-IP, per-payer, per-payTo and facilitator-wide (<code>RATE_LIMIT_GLOBAL_PER_WINDOW</code>, 0 disables) limits; <code>RATE_LIMIT_MAX_KEYS</code> bounds memory.</td></tr>
+              <tr><th scope="row"><code>GAS_BUDGET_GLOBAL_DAILY</code>, <code>GAS_BUDGET_PER_PAYTO_DAILY</code></th><td>1, 0.1</td><td>Daily budgets in native units (decimal). <code>unlimited</code> disables, <code>0</code> refuses every settlement.</td></tr>
+              <tr><th scope="row"><code>LOW_RUNWAY_SETTLES</code></th><td>50</td><td><code>/health</code> turns <code>degraded</code> below this many affordable settlements.</td></tr>
+              <tr><th scope="row"><code>HEALTH_CACHE_SECONDS</code>, <code>PROXY_PROBE_MINUTES</code></th><td>10, 10</td><td>How long one <code>/health</code> probe is reused; how often networks are re-probed for the Permit2 proxies (0 = at start only).</td></tr>
+              <tr><th scope="row"><code>API_KEYS</code>, <code>REQUIRE_API_KEY</code></th><td>none, false</td><td>JSON array of <code>{ name, key | keySha256, rateLimitMultiplier?, dailyGasBudget?, payTo? }</code>; require a key for every call.</td></tr>
+              <tr><th scope="row"><code>DENYLIST_FILE</code>, <code>DENYLIST_RELOAD_SECONDS</code></th><td>denylist.txt, 300</td><td>One address per line; reloaded when the file changes.</td></tr>
+              <tr><th scope="row"><code>FEE_MODE</code>, <code>FEE_BPS</code>, <code>FEE_FLAT_ATOMIC</code></th><td>off, 0, 0</td><td>Fee hook: <code>accrue</code> records a fee per settlement in <code>/metrics</code>.</td></tr>
+              <tr><th scope="row"><code>LANDING_FILE</code>, <code>DOCS_URL</code>, <code>REPO_URL</code>, <code>PUBLIC_URL</code></th><td>site/landing.html, …</td><td>What <code>GET /</code> serves and links to.</td></tr>
+              <tr><th scope="row"><code>LOG_LEVEL</code></th><td>info</td><td>pino level. Signatures, keys and the <code>X-API-Key</code> header are always redacted.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>The full operations guide (funding, budgets, denylist updates from the OFAC SDN list, monitoring, incident response) is in <a href="https://github.com/OGcryptonaut/whitechain-x402-facilitator/blob/main/docs/OPERATIONS.md">docs/OPERATIONS.md</a>.</p>
+      </section>
+
+      <section id="security" aria-labelledby="security-h">
+        <h2 id="security-h">Security model</h2>
+        <ul>
+          <li><strong>No custody.</strong> The payer's signature fixes <code>from</code>, <code>to</code>, <code>value</code>, validity window and nonce. The facilitator can only submit it or not.</li>
+          <li><strong>Verification is the official implementation.</strong> <code>@x402/evm</code>'s facilitator scheme does the EIP-712 recovery (EOA, EIP-1271, ERC-6492), balance and nonce checks and the simulation; this project adds policy around it rather than re-implementing it.</li>
+          <li><strong>Blast radius is gas.</strong> The signer holds WBT only and only ever signs settlement transactions (never messages or typed data). The worst case per request is one transaction capped at <code>MAX_SETTLE_GAS</code>; the daily budgets bound the total. Rotate the key by changing one environment variable; <code>/supported</code> advertises the new signer.</li>
+          <li><strong>Replay and duplicate protection.</strong> On-chain nonces plus an in-memory registry of in-flight and recently settled authorizations; EIP-712 domains bind a signature to one chain, so nothing replays across networks.</li>
+          <li><strong>Screening sees the real payer.</strong> A payload is exactly one of EIP-3009 or Permit2 (anything else is <code>invalid_request</code>), so the denylist, rate limits and dedupe always look at the payer <code>@x402/evm</code> will settle for.</li>
+          <li><strong>Sanctions screening hook.</strong> Payer and payee are checked against a denylist file; the repo includes a script that builds it from the public OFAC SDN list.</li>
+          <li><strong>No secrets in logs or responses.</strong> pino redaction covers signatures, keys and auth headers; request bodies are never logged whole; error text has URLs (and so RPC provider keys) removed before it reaches a caller, <code>/health</code> or the log.</li>
+        </ul>
+        <p>Report vulnerabilities privately: <a href="https://github.com/OGcryptonaut/whitechain-x402-facilitator/blob/main/SECURITY.md">SECURITY.md</a>.</p>
+      </section>
+
+      <section id="mainnet" aria-labelledby="mainnet-h">
+        <h2 id="mainnet-h">Mainnet</h2>
+        <p>Nothing in the code is testnet-only. To serve Whitechain mainnet, add a network entry with the chain id Whitechain publishes, a mainnet RPC and explorer, fund the signer with WBT, and restrict assets to the tokens you are willing to sponsor (for example USDC.e):</p>
+<pre><code>NETWORKS='[
+  { "id": "eip155:1874", "name": "Whitechain Sepolia", "rpc": "https://rpc.testnet.whitechain.io", "explorer": "https://explorer.testnet.whitechain.io", "testnet": true },
+  { "id": "eip155:&lt;MAINNET_CHAIN_ID&gt;", "name": "Whitechain", "rpc": "https://&lt;mainnet-rpc&gt;", "explorer": "https://&lt;mainnet-explorer&gt;", "testnet": false,
+    "assets": ["0xUSDCe_ADDRESS"] }
+]'</code></pre>
+        <p>On mainnet the operator may charge for sponsorship: <code>FEE_MODE=accrue</code> with <code>FEE_BPS</code> or <code>FEE_FLAT_ATOMIC</code> records what each merchant owes, visible in <code>/metrics</code>, without touching the payment itself. Details, including key management and budget sizing, are in <a href="https://github.com/OGcryptonaut/whitechain-x402-facilitator/blob/main/docs/MAINNET.md">docs/MAINNET.md</a>.</p>
+      </section>
+
+      <section id="troubleshooting" aria-labelledby="ts-h">
+        <h2 id="ts-h">Troubleshooting</h2>
+        <h3>"All payment requirements were rejected by spendControls"</h3>
+        <p>The agent's x402 client only pays default assets unless told otherwise. Add the Whitechain token to <code>spendControls.allowedAssets</code> (with a <code>maxAmountPerPayment</code> in atomic units) or set <code>spendControls: false</code> for testing.</p>
+        <h3>"Facilitator supported returned invalid data" or a 502 from the middleware</h3>
+        <p>The middleware could not read <code>/supported</code>. Check the facilitator URL (no trailing path), that the service is up (<code>/health</code>), and that your route's network appears in <code>kinds</code>.</p>
+        <h3><code>invalid_exact_evm_payload_authorization_valid_before</code></h3>
+        <p>The authorization expired before settlement. Raise <code>maxTimeoutSeconds</code> on the route (the client sets <code>validBefore</code> from it) or make the handler faster.</p>
+        <h3>Signature invalid although the token address is right</h3>
+        <p>The EIP-712 domain in <code>extra</code> must match the token: for ITC <code>name: "Inferit Test Credit", version: "1"</code>. Read <code>eip712Domain()</code> on the contract if unsure.</p>
+        <h3><code>gas_budget_exceeded</code></h3>
+        <p>Your <code>payTo</code> used its daily share of sponsored gas. Wait for the UTC reset shown in <code>Retry-After</code>, request an API key, or self-host.</p>
+      </section>
+    </article>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <p class="legal">Copyright 2026 Sahil Massey and contributors. Licensed under Apache-2.0. Whitechain and WhiteBIT are trademarks of their respective owners; x402 is stewarded by the x402 Foundation; USDC is a trademark of Circle. This independent project is not affiliated with, sponsored by or endorsed by any of them. Testnet tokens have no monetary value.</p>
+    </div>
+  </footer>
+</body>
+</html>

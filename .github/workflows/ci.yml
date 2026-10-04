@@ -1,0 +1,153 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  NODE_VERSION: 22
+
+jobs:
+  service:
+    name: Service (typecheck, test, build)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+
+      - name: Install Foundry (anvil for interop tests)
+        uses: foundry-rs/foundry-toolchain@v1
+        with:
+          version: stable
+
+      - run: npm ci
+
+      - run: npm run typecheck
+
+      - name: Test (unit + interop against anvil)
+        run: npm test
+        env:
+          CI: "true"
+
+      - run: npm run build
+
+      - name: Smoke the built server
+        shell: bash
+        run: |
+          set -euo pipefail
+          PORT=18402 HOST=127.0.0.1 LOG_LEVEL=warn \
+          FACILITATOR_PRIVATE_KEY=0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80 \
+          node dist/index.js > server.log 2>&1 &
+          SERVER_PID=$!
+          for i in $(seq 1 30); do
+            curl -fsS http://127.0.0.1:18402/supported > supported.json 2>/dev/null && break
+            sleep 0.5
+          done
+          if ! grep -q '"eip155:1874"' supported.json; then
+            echo "server did not come up"; cat server.log; kill $SERVER_PID || true; exit 1
+          fi
+          cat supported.json
+          curl -fsS -o /dev/null -w "%{http_code}\n" http://127.0.0.1:18402/
+          curl -fsS http://127.0.0.1:18402/health | grep -q '"status"'
+          kill $SERVER_PID
+        # The private key above is anvil's public dev key #0; it holds nothing on any real network.
+
+  examples:
+    name: Examples (typecheck)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        example: [merchant-express, merchant-hono, agent-fetch]
+    defaults:
+      run:
+        working-directory: examples/${{ matrix.example }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: examples/${{ matrix.example }}/package-lock.json
+      - run: npm ci
+      - run: npm run typecheck
+
+  site:
+    name: Site (build + check)
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Build static site
+        working-directory: site
+        run: node build.mjs
+        env:
+          FACILITATOR_URL: https://facilitator.example.invalid
+      - name: Validate JSON-LD, sitemap and manifest
+        working-directory: site
+        run: |
+          node -e '
+            const fs = require("fs");
+            for (const f of ["dist/index.html", "dist/docs.html", "dist/landing.html"]) {
+              const html = fs.readFileSync(f, "utf8");
+              const blocks = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)];
+              if (!blocks.length) throw new Error(f + ": no JSON-LD");
+              for (const [, json] of blocks) JSON.parse(json);
+              if (!/<title>[^<]{20,70}<\/title>/.test(html)) throw new Error(f + ": title length");
+              if (!/<meta name="description" content="[^"]{80,170}">/.test(html)) throw new Error(f + ": description length");
+              if (!/<link rel="canonical"/.test(html)) throw new Error(f + ": canonical");
+              if (html.includes("https://x402-facilitator-production-ff5f.up.railway.app")) throw new Error(f + ": placeholder not substituted");
+            }
+            JSON.parse(fs.readFileSync("dist/site.webmanifest", "utf8"));
+            if (!fs.readFileSync("dist/sitemap.xml", "utf8").includes("<loc>")) throw new Error("sitemap");
+            console.log("site checks passed");
+          '
+
+  docker:
+    name: Docker image builds
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - name: Build (no push)
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: false
+          load: true
+          tags: whitechain-x402-facilitator:ci
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+      - name: Container serves /supported
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker run -d --name facilitator -p 127.0.0.1:18402:8402 \
+            -e FACILITATOR_PRIVATE_KEY=0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80 \
+            -e LOG_LEVEL=warn whitechain-x402-facilitator:ci
+          for i in $(seq 1 30); do
+            curl -fsS http://127.0.0.1:18402/supported && break
+            sleep 1
+          done
+          curl -fsS http://127.0.0.1:18402/supported | grep -q '"exact"'
+          docker logs facilitator
+          docker rm -f facilitator

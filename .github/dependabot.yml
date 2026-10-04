@@ -1,0 +1,39 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5
+    groups:
+      x402:
+        patterns: ["@x402/*"]
+      dev-dependencies:
+        dependency-type: development
+    labels: [dependencies]
+
+  - package-ecosystem: npm
+    directories:
+      - /examples/merchant-express
+      - /examples/merchant-hono
+      - /examples/agent-fetch
+    schedule:
+      interval: monthly
+    open-pull-requests-limit: 3
+    groups:
+      examples:
+        patterns: ["*"]
+    labels: [dependencies, examples]
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    labels: [dependencies, ci]
+
+  - package-ecosystem: docker
+    directory: /
+    schedule:
+      interval: monthly
+    labels: [dependencies, docker]

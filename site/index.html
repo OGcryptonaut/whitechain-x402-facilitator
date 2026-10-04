@@ -1,0 +1,443 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Whitechain x402 Facilitator | Pay-per-request API payments</title>
+  <meta name="description" content="The first public x402 facilitator for Whitechain. Accept HTTP 402 pay-per-request payments from AI agents and APIs on WhiteBIT's L2. Free testnet, open source.">
+  <link rel="canonical" href="https://whitechain-x402-facilitator.vercel.app/">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="author" content="Sahil Massey">
+  <meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0d1013" media="(prefers-color-scheme: dark)">
+  <!-- google-site-verification -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Whitechain x402 Facilitator">
+  <meta property="og:title" content="Whitechain x402 Facilitator: pay-per-request payments on WhiteBIT's L2">
+  <meta property="og:description" content="Accept HTTP 402 payments from AI agents and APIs on Whitechain. Open-source x402 facilitator: no custody, EIP-3009 settlement, gas sponsored, free testnet.">
+  <meta property="og:url" content="https://whitechain-x402-facilitator.vercel.app/">
+  <meta property="og:image" content="https://whitechain-x402-facilitator.vercel.app/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Whitechain x402 Facilitator: HTTP 402 payments for AI agents and APIs on Whitechain">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Whitechain x402 Facilitator">
+  <meta name="twitter:description" content="The first public x402 facilitator for Whitechain. HTTP 402 pay-per-request payments for AI agents and APIs on WhiteBIT's L2.">
+  <meta name="twitter:image" content="https://whitechain-x402-facilitator.vercel.app/og.png">
+  <link rel="icon" href="favicon.ico" sizes="32x32">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="stylesheet" href="styles.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "SoftwareApplication",
+        "@id": "https://whitechain-x402-facilitator.vercel.app/#app",
+        "name": "Whitechain x402 Facilitator",
+        "alternateName": "x402 facilitator for Whitechain",
+        "url": "https://whitechain-x402-facilitator.vercel.app/",
+        "description": "The first public x402 facilitator for Whitechain, WhiteBIT's EVM OP Stack L2. Verifies and settles HTTP 402 pay-per-request payments signed with EIP-3009 so AI agents can pay APIs on Whitechain.",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Linux, macOS, Windows, Docker",
+        "softwareVersion": "0.1.0",
+        "license": "https://www.apache.org/licenses/LICENSE-2.0",
+        "isAccessibleForFree": true,
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD",
+          "description": "Free public facilitator on Whitechain Sepolia testnet, with rate limits and a daily gas budget."
+        },
+        "featureList": [
+          "x402 v2 /verify, /settle and /supported endpoints",
+          "Works unmodified with @x402/express, @x402/hono, @x402/next, @x402/fetch and @x402/axios",
+          "Whitechain Sepolia (eip155:1874) with config-driven mainnet support",
+          "EIP-3009 transferWithAuthorization settlement, payer to merchant, no custody",
+          "Gas sponsored by the facilitator, rate limits and daily gas budgets",
+          "Sanctions denylist hook, health and metrics endpoints, Docker image"
+        ],
+        "author": { "@id": "https://whitechain-x402-facilitator.vercel.app/#author" },
+        "image": "https://whitechain-x402-facilitator.vercel.app/og.png",
+        "screenshot": "https://whitechain-x402-facilitator.vercel.app/og.png",
+        "sameAs": ["https://github.com/OGcryptonaut/whitechain-x402-facilitator"]
+      },
+      {
+        "@type": "SoftwareSourceCode",
+        "@id": "https://whitechain-x402-facilitator.vercel.app/#source",
+        "name": "whitechain-x402-facilitator",
+        "codeRepository": "https://github.com/OGcryptonaut/whitechain-x402-facilitator",
+        "programmingLanguage": "TypeScript",
+        "runtimePlatform": "Node.js 22",
+        "license": "https://www.apache.org/licenses/LICENSE-2.0",
+        "description": "Open-source x402 facilitator for Whitechain: TypeScript, Fastify, viem, official @x402/core and @x402/evm packages.",
+        "targetProduct": { "@id": "https://whitechain-x402-facilitator.vercel.app/#app" },
+        "author": { "@id": "https://whitechain-x402-facilitator.vercel.app/#author" },
+        "keywords": "Whitechain x402, x402 facilitator Whitechain, x402 WhiteBIT, Whitechain agent payments, pay per request Whitechain, EIP-3009 Whitechain"
+      },
+      {
+        "@type": "Person",
+        "@id": "https://whitechain-x402-facilitator.vercel.app/#author",
+        "name": "Sahil Massey",
+        "url": "https://github.com/OGcryptonaut",
+        "affiliation": { "@type": "Organization", "name": "Inferit" }
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://whitechain-x402-facilitator.vercel.app/#website",
+        "url": "https://whitechain-x402-facilitator.vercel.app/",
+        "name": "Whitechain x402 Facilitator",
+        "inLanguage": "en"
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://whitechain-x402-facilitator.vercel.app/#faq",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How do I accept x402 payments on Whitechain?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Run a standard x402 resource server (@x402/express, @x402/hono or @x402/next) and point its HTTPFacilitatorClient at the Whitechain x402 Facilitator URL. In the route config use scheme \"exact\", network \"eip155:1874\", your wallet as payTo, and a price that names an EIP-3009 token (address, atomic amount, and the token's EIP-712 name and version). No contract deployment is needed." }
+          },
+          {
+            "@type": "Question",
+            "name": "Does Whitechain support x402?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Yes. x402 is chain-agnostic: it needs an EVM chain, a token with EIP-3009 transferWithAuthorization, and a facilitator that verifies and settles payments. Whitechain is an EVM OP Stack L2 with 1-second blocks, so the x402 \"exact\" scheme works there unchanged. This project is the facilitator; on Whitechain Sepolia the Inferit Test Credit (ITC) token is the EIP-3009 test asset." }
+          },
+          {
+            "@type": "Question",
+            "name": "Is there an x402 facilitator for WhiteBIT's Whitechain?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Yes: the Whitechain x402 Facilitator is the first public x402 facilitator for Whitechain. It is an independent open-source project (Apache-2.0) built by Sahil Massey at Inferit, not an official WhiteBIT or Whitechain service. Anyone can use the hosted endpoint on testnet or self-host it." }
+          },
+          {
+            "@type": "Question",
+            "name": "Do AI agents need WBT for gas to pay on Whitechain?",
+            "acceptedAnswer": { "@type": "Answer", "text": "No. The paying agent signs an EIP-3009 authorization off-chain and sends it in the PAYMENT-SIGNATURE header. The facilitator submits transferWithAuthorization on chain and pays the WBT gas. The agent only needs a balance of the token being charged, such as ITC on Whitechain Sepolia." }
+          },
+          {
+            "@type": "Question",
+            "name": "Which tokens can be used for x402 payments on Whitechain?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Any ERC-20 that implements EIP-3009 transferWithAuthorization with a FiatToken-style EIP-712 domain: on Whitechain Sepolia the Inferit Test Credit (ITC), and on mainnet bridged USDC.e once it is configured. Other ERC-20s can be charged through Uniswap Permit2 where the x402 Permit2 proxy contracts exist on the network." }
+          },
+          {
+            "@type": "Question",
+            "name": "How much does the Whitechain x402 Facilitator cost?",
+            "acceptedAnswer": { "@type": "Answer", "text": "The public testnet facilitator is free: it sponsors the gas for every settlement within per-IP, per-payer and per-merchant rate limits and a daily gas budget. For mainnet the software has a fee hook (percentage or flat, in the payment token) that is off by default, so an operator can run it sponsored or fee-funded." }
+          },
+          {
+            "@type": "Question",
+            "name": "Does the facilitator hold my funds?",
+            "acceptedAnswer": { "@type": "Answer", "text": "No. An x402 exact payment is a single on-chain transfer from the payer directly to the merchant's payTo address. The facilitator only checks the signature and balance, submits the signed authorization, and pays gas. It cannot redirect, hold or reverse funds, and it never sees the payer's private key." }
+          },
+          {
+            "@type": "Question",
+            "name": "Can I self-host the Whitechain x402 Facilitator?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Yes. It is Apache-2.0 licensed, ships a Dockerfile, and is configured entirely through environment variables: FACILITATOR_PRIVATE_KEY for the gas wallet, NETWORKS as JSON for chain id, RPC and explorer, plus rate limits, gas budgets, API keys and a denylist file." }
+          },
+          {
+            "@type": "Question",
+            "name": "How do I pay a Whitechain x402 API from an AI agent?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Wrap fetch with @x402/fetch, register ExactEvmScheme for network eip155:1874 with a viem account, and allow the Whitechain token in spendControls.allowedAssets with a per-payment cap. The wrapper reads the 402 response, signs the EIP-3009 authorization and retries the request with the payment header automatically." }
+          },
+          {
+            "@type": "Question",
+            "name": "Is this an official Whitechain or WhiteBIT product?",
+            "acceptedAnswer": { "@type": "Answer", "text": "No. The Whitechain x402 Facilitator is an independent community project. Whitechain and WhiteBIT are trademarks of their owners and the names are used only to describe compatibility. The project is not affiliated with, sponsored by or endorsed by Whitechain, WhiteBIT, Coinbase, Circle or the x402 Foundation." }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="top">
+    <div class="wrap">
+      <a class="brand" href="./" aria-label="Whitechain x402 Facilitator home">
+        <svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#0d1013"/><path d="M18 18 L46 46 M46 18 L18 46" stroke="#5fe0b4" stroke-width="9" stroke-linecap="round"/><circle cx="50" cy="50" r="7" fill="#fbfaf7"/><path d="M46.5 50.2 L49.2 52.8 L54 47.6" stroke="#0d1013" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>Whitechain x402 Facilitator</span>
+      </a>
+      <nav aria-label="Primary">
+        <a href="#quickstart">Quickstart</a>
+        <a href="docs.html">Docs</a>
+        <a href="#api">API</a>
+        <a href="#faq">FAQ</a>
+        <a href="https://github.com/OGcryptonaut/whitechain-x402-facilitator">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero">
+      <div class="wrap">
+        <p class="eyebrow">Open source · Apache-2.0 · Whitechain Sepolia eip155:1874</p>
+        <h1>Whitechain x402 Facilitator</h1>
+        <p class="lede">Accept x402 payments on Whitechain. Point any standard x402 server at this facilitator and AI agents can pay your API per request, in EIP-3009 tokens, on WhiteBIT's L2. The payer pays you directly; the facilitator verifies, settles and covers the gas.</p>
+        <div class="actions">
+          <a class="btn primary" href="#quickstart">Start accepting payments</a>
+          <a class="btn" href="docs.html">Read the docs</a>
+          <a class="btn" href="https://github.com/OGcryptonaut/whitechain-x402-facilitator">GitHub</a>
+        </div>
+        <p class="endpoint">Public facilitator URL <code>https://x402-facilitator-production-ff5f.up.railway.app</code> <span>free on testnet, no sign-up</span></p>
+        <dl class="facts">
+          <div><dt>Network</dt><dd>Whitechain Sepolia · eip155:1874</dd></div>
+          <div><dt>Scheme</dt><dd>exact · EIP-3009</dd></div>
+          <div><dt>Custody</dt><dd>None, payer pays merchant</dd></div>
+          <div><dt>Gas</dt><dd>Paid by the facilitator in WBT</dd></div>
+          <div><dt>Compatible with</dt><dd>@x402/express, hono, next, fetch, axios</dd></div>
+          <div><dt>Testnet price</dt><dd>Free, with limits</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <section id="what" aria-labelledby="what-h">
+      <div class="wrap">
+        <h2 id="what-h">What is x402?</h2>
+        <p>x402 is an open payment protocol built on the HTTP status code <code>402 Payment Required</code>. A server answers an unpaid request with 402 and a machine-readable price. The client, typically an AI agent or another API, signs a payment for exactly that amount and retries the request with a <code>PAYMENT-SIGNATURE</code> header. The server asks a <strong>facilitator</strong> to verify the signature and, once the response has been produced, to settle it on chain. No accounts, no API keys, no invoices: one HTTP round trip, one on-chain transfer.</p>
+        <p>The facilitator is the only piece of infrastructure in that loop. This project is that piece for Whitechain: a standard x402 v2 facilitator with <code>/verify</code>, <code>/settle</code> and <code>/supported</code> endpoints, so the official x402 middleware and clients work on Whitechain without modification.</p>
+      </div>
+    </section>
+
+    <section id="why" aria-labelledby="why-h">
+      <div class="wrap">
+        <h2 id="why-h">Why Whitechain for agent payments</h2>
+        <div class="cols">
+          <div class="card">
+            <h3>WhiteBIT ecosystem</h3>
+            <p>Whitechain is the EVM network of the WhiteBIT exchange. Merchants and agents that already hold WBT or stablecoins in that ecosystem can use them for pay-per-request APIs without leaving it.</p>
+          </div>
+          <div class="card">
+            <h3>OP Stack L2, 1-second blocks</h3>
+            <p>Whitechain runs the OP Stack. Blocks arrive about every second, so an x402 settlement is confirmed within the same HTTP request instead of making the client wait.</p>
+          </div>
+          <div class="card">
+            <h3>Low fees, gas in WBT</h3>
+            <p>A settlement is one <code>transferWithAuthorization</code> call. Gas is paid in WBT by the facilitator, so micropayments of a fraction of a cent stay economical and the payer needs no gas at all.</p>
+          </div>
+          <div class="card">
+            <h3>USDC.e via the Portal</h3>
+            <p>Bridged USDC.e on Whitechain mainnet follows Circle's FiatToken interface, including EIP-3009, which is exactly what x402's <code>exact</code> scheme signs. Testnet uses the Inferit Test Credit (ITC), an EIP-3009 faucet token.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="how" aria-labelledby="how-h">
+      <div class="wrap">
+        <h2 id="how-h">How a paid request works</h2>
+        <ol class="flow">
+          <li><strong>Agent calls your API</strong><span>Your x402 middleware answers <code>402</code> with the price: token, amount, your <code>payTo</code>, network <code>eip155:1874</code>.</span></li>
+          <li><strong>Agent signs, retries</strong><span>The client signs an EIP-3009 authorization for exactly that amount, valid for a short window, and resends the request with <code>PAYMENT-SIGNATURE</code>.</span></li>
+          <li><strong>Facilitator verifies</strong><span>Your middleware POSTs to <code>/verify</code>. The facilitator checks the signature, balance, nonce and expiry, then your handler runs.</span></li>
+          <li><strong>Facilitator settles</strong><span>After a successful response, <code>/settle</code> submits the authorization on chain. Tokens move from payer to you; the facilitator pays the gas.</span></li>
+        </ol>
+      </div>
+    </section>
+
+    <section id="quickstart" aria-labelledby="qs-h">
+      <div class="wrap">
+        <h2 id="qs-h">Quickstart</h2>
+        <p>Two sides, no contracts to deploy. The merchant adds the official x402 middleware with this facilitator's URL; the agent wraps <code>fetch</code>. Full, runnable versions live in the <a href="https://github.com/OGcryptonaut/whitechain-x402-facilitator/tree/main/examples">examples</a> directory.</p>
+
+        <h3>Merchant: sell an endpoint with Express</h3>
+        <span class="label">npm install @x402/express @x402/core @x402/evm express</span>
+<pre><code><span class="k">import</span> express <span class="k">from</span> <span class="s">"express"</span>;
+<span class="k">import</span> { paymentMiddleware, x402ResourceServer } <span class="k">from</span> <span class="s">"@x402/express"</span>;
+<span class="k">import</span> { HTTPFacilitatorClient } <span class="k">from</span> <span class="s">"@x402/core/server"</span>;
+<span class="k">import</span> { ExactEvmScheme } <span class="k">from</span> <span class="s">"@x402/evm/exact/server"</span>;
+
+<span class="k">const</span> facilitator = <span class="k">new</span> HTTPFacilitatorClient({ url: <span class="s">"https://x402-facilitator-production-ff5f.up.railway.app"</span> });
+<span class="k">const</span> server = <span class="k">new</span> x402ResourceServer(facilitator).register(<span class="s">"eip155:1874"</span>, <span class="k">new</span> ExactEvmScheme());
+
+<span class="k">const</span> app = express();
+app.use(paymentMiddleware({
+  <span class="s">"GET /weather"</span>: {
+    accepts: {
+      scheme: <span class="s">"exact"</span>,
+      network: <span class="s">"eip155:1874"</span>,          <span class="c">// Whitechain Sepolia</span>
+      payTo: <span class="s">"0xYourMerchantAddress"</span>,
+      price: {                           <span class="c">// 0.01 ITC (6 decimals)</span>
+        asset: <span class="s">"0x2E672dFE33EA977FD064E01aDe7d8c73B3Be7fBB"</span>,
+        amount: <span class="s">"10000"</span>,
+        extra: { name: <span class="s">"Inferit Test Credit"</span>, version: <span class="s">"1"</span> },
+      },
+    },
+    description: <span class="s">"Current weather, paid per request on Whitechain"</span>,
+  },
+}, server));
+
+app.get(<span class="s">"/weather"</span>, (_req, res) =&gt; res.json({ city: <span class="s">"Lisbon"</span>, temperatureC: 24 }));
+app.listen(4021);</code></pre>
+        <p class="muted">Hono is the same four lines with <code>@x402/hono</code>; Next.js uses <code>@x402/next</code>. Prices on Whitechain name the token explicitly (address, atomic amount, EIP-712 domain) because the x402 SDK has no "$" default asset for this chain yet.</p>
+
+        <h3>Agent: pay with fetch</h3>
+        <span class="label">npm install @x402/fetch @x402/evm viem</span>
+<pre><code><span class="k">import</span> { wrapFetchWithPaymentFromConfig } <span class="k">from</span> <span class="s">"@x402/fetch"</span>;
+<span class="k">import</span> { ExactEvmScheme } <span class="k">from</span> <span class="s">"@x402/evm/exact/client"</span>;
+<span class="k">import</span> { privateKeyToAccount } <span class="k">from</span> <span class="s">"viem/accounts"</span>;
+
+<span class="k">const</span> account = privateKeyToAccount(process.env.AGENT_PRIVATE_KEY <span class="k">as</span> <span class="s">`0x${string}`</span>);
+
+<span class="k">const</span> fetchWithPayment = wrapFetchWithPaymentFromConfig(fetch, {
+  schemes: [{ network: <span class="s">"eip155:1874"</span>, client: <span class="k">new</span> ExactEvmScheme(account) }],
+  spendControls: {                     <span class="c">// allow the Whitechain token, cap each payment</span>
+    allowedAssets: [{ network: <span class="s">"eip155:1874"</span>, asset: <span class="s">"0x2E672dFE33EA977FD064E01aDe7d8c73B3Be7fBB"</span>, maxAmountPerPayment: <span class="s">"100000"</span> }],
+  },
+});
+
+<span class="k">const</span> res = <span class="k">await</span> fetchWithPayment(<span class="s">"https://api.example.com/weather"</span>);
+console.log(<span class="k">await</span> res.json());      <span class="c">// paid: 402 -&gt; signed -&gt; 200</span></code></pre>
+        <p class="muted">The agent needs ITC, not WBT: the facilitator pays the gas. Get test ITC from the token's public faucet and test WBT from the <a href="https://faucet.testnet.whitechain.io">Whitechain faucet</a> only if you run your own facilitator.</p>
+      </div>
+    </section>
+
+    <section id="networks" aria-labelledby="net-h">
+      <div class="wrap">
+        <h2 id="net-h">Supported networks and tokens</h2>
+        <div class="table">
+          <table>
+            <thead><tr><th scope="col">Network</th><th scope="col">CAIP-2</th><th scope="col">Scheme</th><th scope="col">Tokens</th><th scope="col">Status</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Whitechain Sepolia (testnet)</th><td><code>eip155:1874</code></td><td><code>exact</code> (EIP-3009)</td><td>Inferit Test Credit (ITC), faucet token, 6 decimals; any EIP-3009 token</td><td><span class="pill">Live, free</span></td></tr>
+              <tr><th scope="row">Whitechain mainnet</th><td><code>eip155:&lt;chain id&gt;</code></td><td><code>exact</code> (EIP-3009)</td><td>USDC.e via the Whitechain Portal; any EIP-3009 token</td><td><span class="pill wait">Config entry, not yet public</span></td></tr>
+              <tr><th scope="row">Any network</th><td>via <code>NETWORKS</code></td><td><code>exact</code> via Permit2, <code>upto</code></td><td>Any ERC-20, once the x402 Permit2 proxies exist on that chain</td><td><span class="pill wait">Roadmap</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>RPC <code>https://rpc.testnet.whitechain.io</code> · Explorer <code>https://explorer.testnet.whitechain.io</code> · Gas token WBT. Networks are configuration, not code: the mainnet entry is a JSON object with the chain id Whitechain publishes, its RPC and its explorer.</p>
+      </div>
+    </section>
+
+    <section id="api" aria-labelledby="api-h">
+      <div class="wrap">
+        <h2 id="api-h">HTTP API</h2>
+        <p>The wire format is x402 v2 exactly as <code>@x402/core</code>'s <code>HTTPFacilitatorClient</code> sends it. You normally never call these yourself; the middleware does.</p>
+        <div class="table">
+          <table>
+            <thead><tr><th scope="col">Endpoint</th><th scope="col">Purpose</th></tr></thead>
+            <tbody>
+              <tr><th scope="row"><span class="method">GET</span> <code>/supported</code></th><td>Schemes, networks and facilitator signer addresses. Middleware calls it on start.</td></tr>
+              <tr><th scope="row"><span class="method">POST</span> <code>/verify</code></th><td>Checks a <code>paymentPayload</code> against <code>paymentRequirements</code>: signature, EIP-712 domain, amount, expiry, nonce, balance. Returns <code>isValid</code> and a reason.</td></tr>
+              <tr><th scope="row"><span class="method">POST</span> <code>/settle</code></th><td>Re-verifies and submits <code>transferWithAuthorization</code>. Returns <code>success</code>, <code>transaction</code>, <code>network</code>, <code>payer</code>.</td></tr>
+              <tr><th scope="row"><span class="method">GET</span> <code>/health</code></th><td>Status, facilitator wallet gas balance and settlement runway per network.</td></tr>
+              <tr><th scope="row"><span class="method">GET</span> <code>/metrics</code></th><td>JSON counters: verifies, settles, failures by reason, gas spent.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Policy refusals keep the x402 body shape with a non-2xx status, so <code>HTTPFacilitatorClient</code> surfaces them as typed errors: <code>unsupported_scheme_network</code> (400), <code>invalid_api_key</code> (401), <code>address_denylisted</code> (403), <code>duplicate_settlement</code> (409), <code>rate_limit_exceeded</code> and <code>gas_budget_exceeded</code> (429, with <code>Retry-After</code>), <code>rpc_unavailable</code> (503). Full request and response examples and the complete reason-code table are in the <a href="docs.html#api">API reference</a>.</p>
+      </div>
+    </section>
+
+    <section id="policy" aria-labelledby="policy-h">
+      <div class="wrap">
+        <h2 id="policy-h">Testnet policy: free, within limits</h2>
+        <p>The public facilitator sponsors every settlement on Whitechain Sepolia. To keep that sustainable it enforces:</p>
+        <ul>
+          <li>Rate limits per client IP, per payer address and per <code>payTo</code> address (token buckets; defaults 120, 30 and 120 requests per minute), plus a facilitator-wide ceiling of 1,200 per minute.</li>
+          <li>A daily gas budget per <code>payTo</code> and a global one, checked on verify as well as settle; a payment beyond the budget is refused with <code>gas_budget_exceeded</code> and a <code>Retry-After</code> that points at the 00:00 UTC reset.</li>
+          <li>Optional merchant API keys (<code>X-API-Key</code>) with higher limits and their own budget.</li>
+          <li>A sanctions denylist of addresses, sourced from the public OFAC SDN list, checked on both payer and payee.</li>
+        </ul>
+        <p>Nothing is stored about you beyond counters and short-lived rate-limit keys. Signatures are never logged.</p>
+      </div>
+    </section>
+
+    <section id="security" aria-labelledby="sec-h">
+      <div class="wrap">
+        <h2 id="sec-h">Security model</h2>
+        <div class="cols">
+          <div class="card"><h3>No custody</h3><p>Funds move payer to <code>payTo</code> in one transfer the payer signed. The facilitator cannot change the recipient or the amount; the signature covers both.</p></div>
+          <div class="card"><h3>Signature first</h3><p>Verification uses the official <code>@x402/evm</code> facilitator scheme: EIP-712 domain, EIP-1271 and ERC-6492 smart-wallet signatures, nonce replay checks and balance reads, with an on-chain simulation before broadcasting.</p></div>
+          <div class="card"><h3>Blast radius: gas</h3><p>The signer key only holds WBT for gas. Leaking it costs at most that balance. It is read from <code>FACILITATOR_PRIVATE_KEY</code>, never written to logs or responses.</p></div>
+          <div class="card"><h3>Sanctions hook</h3><p>A denylist file (OFAC SDN crypto addresses) is reloaded on a schedule and applied to <code>/verify</code> and <code>/settle</code>. Operators can extend it.</p></div>
+        </div>
+        <p class="muted">Found a vulnerability? See the <a href="https://github.com/OGcryptonaut/whitechain-x402-facilitator/blob/main/SECURITY.md">security policy</a>.</p>
+      </div>
+    </section>
+
+    <section id="roadmap" aria-labelledby="road-h">
+      <div class="wrap">
+        <h2 id="road-h">Roadmap</h2>
+        <ul>
+          <li><strong>Whitechain mainnet</strong>: enable the mainnet network entry with USDC.e once Whitechain publishes the chain id and the token is bridged.</li>
+          <li><strong>Permit2 and <code>upto</code></strong>: Uniswap Permit2 is already deployed on Whitechain; the x402 Permit2 proxy contracts are not. The repo includes the deterministic-deployment check and script so they can land at their canonical addresses, which unlocks any ERC-20 and the <code>upto</code> (pay-what-you-use) scheme.</li>
+          <li><strong>Fees</strong>: the fee hook (basis points or flat, in the payment token) is implemented and off by default; mainnet operators can turn it on or run sponsored.</li>
+          <li><strong>Bazaar listing and discovery extensions</strong> once the ecosystem settles on them.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="faq" aria-labelledby="faq-h">
+      <div class="wrap faq">
+        <h2 id="faq-h">Frequently asked questions</h2>
+        <h3>How do I accept x402 payments on Whitechain?</h3>
+        <p>Run a standard x402 resource server (<code>@x402/express</code>, <code>@x402/hono</code> or <code>@x402/next</code>) and point its <code>HTTPFacilitatorClient</code> at this facilitator's URL. In the route config use scheme <code>exact</code>, network <code>eip155:1874</code>, your wallet as <code>payTo</code>, and a price that names an EIP-3009 token (address, atomic amount, and the token's EIP-712 name and version). No contract deployment is needed.</p>
+        <h3>Does Whitechain support x402?</h3>
+        <p>Yes. x402 is chain-agnostic: it needs an EVM chain, a token with EIP-3009 <code>transferWithAuthorization</code>, and a facilitator that verifies and settles. Whitechain is an EVM OP Stack L2 with 1-second blocks, so the x402 <code>exact</code> scheme works there unchanged. This project is the facilitator; on Whitechain Sepolia the Inferit Test Credit (ITC) is the EIP-3009 test asset.</p>
+        <h3>Is there an x402 facilitator for WhiteBIT's Whitechain?</h3>
+        <p>Yes: this is the first public x402 facilitator for Whitechain. It is an independent open-source project (Apache-2.0) built by Sahil Massey at Inferit, not an official WhiteBIT or Whitechain service. Anyone can use the hosted endpoint on testnet or self-host it.</p>
+        <h3>Do AI agents need WBT for gas to pay on Whitechain?</h3>
+        <p>No. The agent signs an EIP-3009 authorization off-chain and sends it in the <code>PAYMENT-SIGNATURE</code> header. The facilitator submits <code>transferWithAuthorization</code> and pays the WBT gas. The agent only needs a balance of the token being charged, such as ITC on Whitechain Sepolia.</p>
+        <h3>Which tokens can be used for x402 payments on Whitechain?</h3>
+        <p>Any ERC-20 that implements EIP-3009 with a FiatToken-style EIP-712 domain: ITC on Whitechain Sepolia, and bridged USDC.e on mainnet once configured. Other ERC-20s can be charged through Uniswap Permit2 where the x402 Permit2 proxy contracts exist on the network.</p>
+        <h3>How much does the Whitechain x402 Facilitator cost?</h3>
+        <p>The public testnet facilitator is free: it sponsors the gas for every settlement within per-IP, per-payer and per-merchant rate limits and a daily gas budget. For mainnet the software has a fee hook (percentage or flat, in the payment token) that is off by default, so an operator can run it sponsored or fee-funded.</p>
+        <h3>Does the facilitator hold my funds?</h3>
+        <p>No. An x402 <code>exact</code> payment is a single on-chain transfer from the payer directly to the merchant's <code>payTo</code> address. The facilitator checks the signature and balance, submits the signed authorization and pays gas. It cannot redirect, hold or reverse funds, and it never sees the payer's private key.</p>
+        <h3>Can I self-host the Whitechain x402 Facilitator?</h3>
+        <p>Yes. It is Apache-2.0 licensed, ships a Dockerfile, and is configured through environment variables: <code>FACILITATOR_PRIVATE_KEY</code> for the gas wallet, <code>NETWORKS</code> as JSON for chain id, RPC and explorer, plus rate limits, gas budgets, API keys and a denylist file. See <a href="docs.html#self-hosting">self-hosting</a>.</p>
+        <h3>How do I pay a Whitechain x402 API from an AI agent?</h3>
+        <p>Wrap <code>fetch</code> with <code>@x402/fetch</code>, register <code>ExactEvmScheme</code> for <code>eip155:1874</code> with a viem account, and allow the Whitechain token in <code>spendControls.allowedAssets</code> with a per-payment cap. The wrapper reads the 402, signs the EIP-3009 authorization and retries with the payment header automatically.</p>
+        <h3>Is this an official Whitechain or WhiteBIT product?</h3>
+        <p>No. It is an independent community project. Whitechain and WhiteBIT are trademarks of their owners, used here only to describe compatibility. The project is not affiliated with, sponsored by or endorsed by Whitechain, WhiteBIT, Coinbase, Circle or the x402 Foundation.</p>
+      </div>
+    </section>
+
+    <section id="built-by" aria-labelledby="by-h">
+      <div class="wrap">
+        <h2 id="by-h">Built by</h2>
+        <p><a href="https://github.com/OGcryptonaut">Sahil Massey</a> at <strong>Inferit</strong>, where x402 on Whitechain already pays for open-weight LLM inference per request. The facilitator was split out so any merchant and any agent can use it. Contributions are welcome: see <a href="https://github.com/OGcryptonaut/whitechain-x402-facilitator/blob/main/CONTRIBUTING.md">CONTRIBUTING.md</a>.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <div class="cols">
+        <div>
+          <h2>Project</h2>
+          <ul>
+            <li><a href="https://github.com/OGcryptonaut/whitechain-x402-facilitator">Source on GitHub</a></li>
+            <li><a href="docs.html">Documentation</a></li>
+            <li><a href="https://github.com/OGcryptonaut/whitechain-x402-facilitator/tree/main/examples">Examples</a></li>
+            <li><a href="https://github.com/OGcryptonaut/whitechain-x402-facilitator/blob/main/CHANGELOG.md">Changelog</a></li>
+            <li><a href="https://github.com/OGcryptonaut/whitechain-x402-facilitator/blob/main/SECURITY.md">Security policy</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2>Ecosystem</h2>
+          <ul>
+            <li><a href="https://x402.org">x402 protocol</a></li>
+            <li><a href="https://github.com/x402-foundation/x402">x402 reference implementation</a></li>
+            <li><a href="https://whitechain.io">Whitechain</a></li>
+            <li><a href="https://explorer.testnet.whitechain.io">Whitechain Sepolia explorer</a></li>
+            <li><a href="https://faucet.testnet.whitechain.io">Whitechain Sepolia faucet</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2>Facilitator</h2>
+          <ul>
+            <li><a href="https://x402-facilitator-production-ff5f.up.railway.app/supported">/supported</a></li>
+            <li><a href="https://x402-facilitator-production-ff5f.up.railway.app/health">/health</a></li>
+            <li><a href="https://x402-facilitator-production-ff5f.up.railway.app/metrics">/metrics</a></li>
+          </ul>
+        </div>
+      </div>
+      <p class="legal">Copyright 2026 Sahil Massey and contributors. Licensed under Apache-2.0. Whitechain and WhiteBIT are trademarks of their respective owners; x402 is stewarded by the x402 Foundation; USDC is a trademark of Circle. This independent project is not affiliated with, sponsored by or endorsed by any of them. Testnet tokens have no monetary value.</p>
+    </div>
+  </footer>
+</body>
+</html>

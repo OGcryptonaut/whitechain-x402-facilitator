@@ -1,0 +1,14 @@
+{
+  "name": "Whitechain x402 Facilitator",
+  "short_name": "x402 Whitechain",
+  "description": "The first public x402 facilitator for Whitechain: HTTP 402 pay-per-request payments for AI agents and APIs on WhiteBIT's L2.",
+  "start_url": "./",
+  "display": "browser",
+  "background_color": "#0d1013",
+  "theme_color": "#0d1013",
+  "icons": [
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "apple-touch-icon.png", "sizes": "180x180", "type": "image/png" },
+    { "src": "favicon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}

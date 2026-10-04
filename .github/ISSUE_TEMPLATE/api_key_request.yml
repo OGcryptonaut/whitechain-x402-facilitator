@@ -1,0 +1,38 @@
+name: Merchant API key request
+description: Ask for an X-API-Key on the public testnet facilitator for higher rate limits and a dedicated gas budget.
+title: "API key request: <project name>"
+labels: [api-key]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        The public facilitator is free without a key. A key raises your rate limits and gives your payTo address its own daily gas budget. Keys are issued manually and delivered out of band; nothing secret goes in this issue.
+  - type: input
+    id: project
+    attributes:
+      label: Project
+      description: Name and a link (site, repo or API docs).
+    validations:
+      required: true
+  - type: input
+    id: payto
+    attributes:
+      label: payTo address(es)
+      description: The merchant address(es) the key may settle to.
+      placeholder: "0x..."
+    validations:
+      required: true
+  - type: input
+    id: volume
+    attributes:
+      label: Expected volume
+      placeholder: "about 2,000 paid requests per day"
+    validations:
+      required: true
+  - type: input
+    id: contact
+    attributes:
+      label: Contact
+      description: How the key should reach you (an email address, or a GitHub handle to DM).
+    validations:
+      required: true

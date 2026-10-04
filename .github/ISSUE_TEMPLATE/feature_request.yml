@@ -1,0 +1,28 @@
+name: Feature request
+description: Propose a change to the facilitator, its policy, the examples or the docs.
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What are you trying to do that is hard or impossible today?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      description: What would you like to see? Protocol-level changes (new schemes, extensions) should be raised upstream in the x402 repository first.
+    validations:
+      required: true
+  - type: dropdown
+    id: scope
+    attributes:
+      label: Scope
+      options:
+        - Networks / tokens
+        - Policy (limits, budgets, fees, screening)
+        - Operations (health, metrics, deployment)
+        - Examples / documentation
+        - Other
