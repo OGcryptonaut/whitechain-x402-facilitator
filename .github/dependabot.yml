@@ -12,6 +12,10 @@ updates:
       dev-dependencies:
         dependency-type: development
     labels: [dependencies]
+    ignore:
+      # Node majors are moved deliberately with the runtime (engines, Dockerfile); see CONTRIBUTING.md.
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]
 
   - package-ecosystem: npm
     directories:
@@ -25,6 +29,10 @@ updates:
       examples:
         patterns: ["*"]
     labels: [dependencies, examples]
+    ignore:
+      # Node majors are moved deliberately with the runtime (engines, Dockerfile); see CONTRIBUTING.md.
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]
 
   - package-ecosystem: github-actions
     directory: /
@@ -37,3 +45,6 @@ updates:
     schedule:
       interval: monthly
     labels: [dependencies, docker]
+    ignore:
+      - dependency-name: node
+        update-types: ["version-update:semver-major"]
