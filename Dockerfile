@@ -6,7 +6,7 @@
 #
 # The signer key is read from the environment at runtime only; nothing secret is baked in.
 
-FROM node:22-alpine AS build
+FROM node:26-alpine AS build
 WORKDIR /app
 ENV NODE_ENV=development
 COPY package.json package-lock.json ./
@@ -18,7 +18,7 @@ RUN npm run build \
 
 # Stage the runtime tree so the optional landing page (written by the docs build into
 # site/landing.html) is included when present and silently skipped when it is not.
-FROM node:22-alpine AS stage
+FROM node:26-alpine AS stage
 WORKDIR /stage
 COPY --from=build /app/package.json ./package.json
 COPY --from=build /app/node_modules ./node_modules
@@ -28,7 +28,7 @@ RUN mkdir -p site \
  && if [ -f /src/site/landing.html ]; then cp /src/site/landing.html site/landing.html; fi \
  && if [ -f /src/denylist.txt ]; then cp /src/denylist.txt denylist.txt; fi
 
-FROM node:22-alpine AS runtime
+FROM node:26-alpine AS runtime
 WORKDIR /app
 ENV NODE_ENV=production \
     HOST=0.0.0.0 \
