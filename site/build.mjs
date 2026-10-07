@@ -43,7 +43,7 @@ for (const [name, value] of [["GOOGLE_SITE_VERIFICATION", google], ["BING_SITE_V
   if (value && !/^[A-Za-z0-9_-]+$/.test(value)) fail(`${name} must be a plain token, got "${value}"`);
 }
 
-const SKIP = new Set(["dist", "node_modules", "build.mjs", "vercel.json", "README.md", ".gitignore", ".DS_Store"]);
+const SKIP = new Set(["dist", "node_modules", "build.mjs", "vercel.json", "README.md", ".gitignore", ".DS_Store", ".vercel", ".env", ".env.local"]);
 const TEXT = new Set([".html", ".css", ".xml", ".txt", ".webmanifest", ".json", ".svg"]);
 
 rmSync(out, { recursive: true, force: true });
