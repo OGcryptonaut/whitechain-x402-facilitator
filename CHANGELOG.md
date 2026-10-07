@@ -6,7 +6,7 @@ All notable changes to this project are documented here. The format follows [Kee
 
 ## [0.1.0] - 2026-10-04
 
-First public release: the first public x402 facilitator for Whitechain.
+First public release: the first public x402 v2 facilitator for Whitechain.
 
 ### Added
 

@@ -1,6 +1,6 @@
 # Whitechain x402 Facilitator
 
-The first public x402 facilitator for Whitechain: point any standard x402 server at it and AI agents can pay your API per request, in EIP-3009 tokens, on WhiteBIT's L2, with the payer paying you directly and the facilitator covering the gas.
+The first public x402 v2 facilitator for Whitechain: point any standard x402 server at it and AI agents can pay your API per request, in EIP-3009 tokens, on WhiteBIT's L2, with the payer paying you directly and the facilitator covering the gas.
 
 [![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 [![CI](https://github.com/OGcryptonaut/whitechain-x402-facilitator/actions/workflows/ci.yml/badge.svg)](https://github.com/OGcryptonaut/whitechain-x402-facilitator/actions/workflows/ci.yml)
@@ -296,7 +296,7 @@ Run a standard x402 resource server (`@x402/express`, `@x402/hono` or `@x402/nex
 Yes. x402 is chain-agnostic: it needs an EVM chain, a token with EIP-3009 `transferWithAuthorization`, and a facilitator that verifies and settles. Whitechain is an EVM OP Stack L2 with 1-second blocks, so the x402 `exact` scheme works there unchanged. This project is the facilitator; on Whitechain Sepolia the Inferit Test Credit (ITC) is the EIP-3009 test asset.
 
 **Is there an x402 facilitator for WhiteBIT's Whitechain?**
-Yes: this is the first public x402 facilitator for Whitechain. It is an independent open-source project (Apache-2.0) built by Sahil Massey at Inferit, not an official WhiteBIT or Whitechain service. Anyone can use the hosted endpoint on testnet or self-host it.
+Yes: this is the first public x402 v2 facilitator for Whitechain. It is an independent open-source project (Apache-2.0) built by Sahil Massey at Inferit, not an official WhiteBIT or Whitechain service. Anyone can use the hosted endpoint on testnet or self-host it.
 
 **Do AI agents need WBT for gas to pay on Whitechain?**
 No. The agent signs an EIP-3009 authorization off-chain and sends it in the `PAYMENT-SIGNATURE` header. The facilitator submits `transferWithAuthorization` and pays the WBT gas. The agent only needs a balance of the token being charged, such as ITC on Whitechain Sepolia.

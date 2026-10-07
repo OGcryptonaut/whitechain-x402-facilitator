@@ -1,7 +1,7 @@
 {
   "name": "Whitechain x402 Facilitator",
   "short_name": "x402 Whitechain",
-  "description": "The first public x402 facilitator for Whitechain: HTTP 402 pay-per-request payments for AI agents and APIs on WhiteBIT's L2.",
+  "description": "The first public x402 v2 facilitator for Whitechain: HTTP 402 pay-per-request payments for AI agents and APIs on WhiteBIT's L2.",
   "start_url": "./",
   "display": "browser",
   "background_color": "#0d1013",

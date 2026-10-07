@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Whitechain x402 Facilitator | Pay-per-request API payments</title>
-  <meta name="description" content="The first public x402 facilitator for Whitechain. Accept HTTP 402 pay-per-request payments from AI agents and APIs on WhiteBIT's L2. Free testnet, open source.">
+  <meta name="description" content="The first public x402 v2 facilitator for Whitechain. Accept HTTP 402 pay-per-request payments from AI agents and APIs on WhiteBIT's L2. Free testnet, open source.">
   <link rel="canonical" href="https://whitechain-x402-facilitator.vercel.app/">
   <meta name="robots" content="index, follow, max-image-preview:large">
   <meta name="author" content="Sahil Massey">
@@ -23,7 +23,7 @@
   <meta property="og:locale" content="en_US">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Whitechain x402 Facilitator">
-  <meta name="twitter:description" content="The first public x402 facilitator for Whitechain. HTTP 402 pay-per-request payments for AI agents and APIs on WhiteBIT's L2.">
+  <meta name="twitter:description" content="The first public x402 v2 facilitator for Whitechain. HTTP 402 pay-per-request payments for AI agents and APIs on WhiteBIT's L2.">
   <meta name="twitter:image" content="https://whitechain-x402-facilitator.vercel.app/og.png">
   <link rel="icon" href="favicon.ico" sizes="32x32">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
@@ -40,7 +40,7 @@
         "name": "Whitechain x402 Facilitator",
         "alternateName": "x402 facilitator for Whitechain",
         "url": "https://whitechain-x402-facilitator.vercel.app/",
-        "description": "The first public x402 facilitator for Whitechain, WhiteBIT's EVM OP Stack L2. Verifies and settles HTTP 402 pay-per-request payments signed with EIP-3009 so AI agents can pay APIs on Whitechain.",
+        "description": "The first public x402 v2 facilitator for Whitechain, WhiteBIT's EVM OP Stack L2. Verifies and settles HTTP 402 pay-per-request payments signed with EIP-3009 so AI agents can pay APIs on Whitechain.",
         "applicationCategory": "DeveloperApplication",
         "operatingSystem": "Linux, macOS, Windows, Docker",
         "softwareVersion": "0.1.0",
@@ -109,7 +109,7 @@
           {
             "@type": "Question",
             "name": "Is there an x402 facilitator for WhiteBIT's Whitechain?",
-            "acceptedAnswer": { "@type": "Answer", "text": "Yes: the Whitechain x402 Facilitator is the first public x402 facilitator for Whitechain. It is an independent open-source project (Apache-2.0) built by Sahil Massey at Inferit, not an official WhiteBIT or Whitechain service. Anyone can use the hosted endpoint on testnet or self-host it." }
+            "acceptedAnswer": { "@type": "Answer", "text": "Yes: the Whitechain x402 Facilitator is the first public x402 v2 facilitator for Whitechain. It is an independent open-source project (Apache-2.0) built by Sahil Massey at Inferit, not an official WhiteBIT or Whitechain service. Anyone can use the hosted endpoint on testnet or self-host it." }
           },
           {
             "@type": "Question",
@@ -378,7 +378,7 @@ console.log(<span class="k">await</span> res.json());      <span class="c">// pa
         <h3>Does Whitechain support x402?</h3>
         <p>Yes. x402 is chain-agnostic: it needs an EVM chain, a token with EIP-3009 <code>transferWithAuthorization</code>, and a facilitator that verifies and settles. Whitechain is an EVM OP Stack L2 with 1-second blocks, so the x402 <code>exact</code> scheme works there unchanged. This project is the facilitator; on Whitechain Sepolia the Inferit Test Credit (ITC) is the EIP-3009 test asset.</p>
         <h3>Is there an x402 facilitator for WhiteBIT's Whitechain?</h3>
-        <p>Yes: this is the first public x402 facilitator for Whitechain. It is an independent open-source project (Apache-2.0) built by Sahil Massey at Inferit, not an official WhiteBIT or Whitechain service. Anyone can use the hosted endpoint on testnet or self-host it.</p>
+        <p>Yes: this is the first public x402 v2 facilitator for Whitechain. It is an independent open-source project (Apache-2.0) built by Sahil Massey at Inferit, not an official WhiteBIT or Whitechain service. Anyone can use the hosted endpoint on testnet or self-host it.</p>
         <h3>Do AI agents need WBT for gas to pay on Whitechain?</h3>
         <p>No. The agent signs an EIP-3009 authorization off-chain and sends it in the <code>PAYMENT-SIGNATURE</code> header. The facilitator submits <code>transferWithAuthorization</code> and pays the WBT gas. The agent only needs a balance of the token being charged, such as ITC on Whitechain Sepolia.</p>
         <h3>Which tokens can be used for x402 payments on Whitechain?</h3>
